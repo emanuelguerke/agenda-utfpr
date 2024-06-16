@@ -30,6 +30,7 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.regex.Pattern;
 import java.awt.event.ActionEvent;
 
 public class CadastroWindow extends JFrame {
@@ -94,6 +95,18 @@ public class CadastroWindow extends JFrame {
 				}
 	}
 	
+	public static boolean validarEmail(String email) {
+	    final Pattern EMAIL_REGEX = Pattern.compile("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", Pattern.CASE_INSENSITIVE);
+	    return EMAIL_REGEX.matcher(email).matches();
+	}
+	public boolean validarCampos() {
+		if( validarEmail(txtEmail.getText()) && txtNomeCompleto.getText() != null && !txtNomeCompleto.getText().isEmpty() && txtNomeUsuario.getText() != null && !txtNomeUsuario.getText().isEmpty() && fieldSenha.getText() != null && !fieldSenha.getText().isEmpty()) {
+			return true;
+		}else {
+			return false;
+		}
+		
+	}
 	private void criarMascaraData() {
 		
 		try {
@@ -129,11 +142,15 @@ public class CadastroWindow extends JFrame {
 			catch (SQLIntegrityConstraintViolationException e) {
 				JOptionPane.showMessageDialog(null, "Nome de usuario já cadastrado.", "ERRO", JOptionPane.ERROR_MESSAGE);
 			}
-			catch (ParseException | SQLException | IOException e) {
+		    catch(ParseException e) {
+				JOptionPane.showMessageDialog(null, "Data inválida.", "ERRO", JOptionPane.ERROR_MESSAGE);
+		    }
+			catch (SQLException | IOException e) {
 				
 				JOptionPane.showMessageDialog(null, "Não foi possivel cadastrar um novo usuário.", "ERRO", JOptionPane.ERROR_MESSAGE);
 				System.out.println(e);
 			}
+		
 			
 			
 	}
@@ -240,8 +257,10 @@ public class CadastroWindow extends JFrame {
 		btnCadastrarUsuario = new JButton("Cadastrar novo usuário");
 		btnCadastrarUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				if(validarCampos())
 				cadastrarUsuario();
+				else
+					JOptionPane.showMessageDialog(btnCadastrarUsuario, "Campo vazio ou invalido", "Aviso", JOptionPane.WARNING_MESSAGE);
 			}
 		});
 		btnCadastrarUsuario.setFont(new Font("Tahoma", Font.BOLD, 12));

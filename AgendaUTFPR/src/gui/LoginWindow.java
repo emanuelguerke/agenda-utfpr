@@ -57,6 +57,7 @@ public class LoginWindow extends JFrame {
 		this.setVisible(false);
 		
 	}
+	
 	public boolean validarCampos() {
 		if(txtNomeUsuario.getText() != null && !txtNomeUsuario.getText().isEmpty() && fieldSenha.getText() != null && !fieldSenha.getText().isEmpty()) {
 			return true;
@@ -120,7 +121,7 @@ public class LoginWindow extends JFrame {
 					JOptionPane.showMessageDialog(btnEntrar, "Login realizado!", "Aviso", JOptionPane.WARNING_MESSAGE);
 					abrirTelaPrincipal(); 
 				} else {
-					JOptionPane.showMessageDialog(btnEntrar, "Email ou senha incorretas/inválidas", "Aviso", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(btnEntrar, "Usuario ou senha incorretas/inválidas", "Aviso", JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		});
