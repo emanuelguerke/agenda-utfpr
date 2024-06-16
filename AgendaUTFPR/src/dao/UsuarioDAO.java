@@ -57,7 +57,7 @@ public class UsuarioDAO {
 		PreparedStatement st = null;
 		
 		try {
-			st = conn.prepareStatement("INSERT INTO usuario (nome_completo, data_nascimento, genero, email, nome_usuario, senha) VALUES (?, ?, ?, ?, ?, ?)");
+			st = conn.prepareStatement("INSERT IGNORE INTO usuario (nome_completo, data_nascimento, genero, email, nome_usuario, senha) VALUES (?, ?, ?, ?, ?, ?)");
 			st.setString(1, usuario.getNomeCompleto());
 			st.setDate(2, new Date(usuario.getDataNascimento().getTime()));
 			st.setString(3, usuario.getGenero());
@@ -71,6 +71,30 @@ public class UsuarioDAO {
 			BancoDados.desconectar();
 		}
 	}
+	
+	public boolean validarNomeUsuario(String usuario) throws SQLException{
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		
+		try {
+			st = conn.prepareStatement("SELECT nome_usuario FROM usuario WHERE ? = nome_usuario");
+			st.setString(1, usuario);
+			rs = st.executeQuery();
+		//	if(rs.getString("nome_usuario") == usuario && rs.getString("senha") == senha ) {
+			if(!rs.next()) {
+				System.out.println("Usuario valido");
+				return true;
+			}else {
+				System.out.println("Nome de usuario já cadastrado");
+				return false;
+			}
+		}
+		finally {
+			BancoDados.finalizarStatement(st);
+			BancoDados.desconectar();
+		}
+	}
+	
 	public boolean validarSenhaUsuario(String usuario, String senha) throws SQLException{
 		PreparedStatement st = null;
 		ResultSet rs = null;

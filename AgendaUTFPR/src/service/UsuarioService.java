@@ -32,4 +32,10 @@ public boolean validarSenhaUsuario(String usuario, String senha) throws SQLExcep
 		Connection conn = BancoDados.conectar();
 		return (new UsuarioDAO(conn).validarSenhaUsuario(usuario,senha));
 	}
+public boolean validarNomeUsuario(String usuario) throws SQLException, IOException {
+	
+	Connection conn = BancoDados.conectar();
+	return (new UsuarioDAO(conn).validarNomeUsuario(usuario));
+}
+
 }

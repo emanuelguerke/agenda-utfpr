@@ -57,6 +57,7 @@ public class CadastroWindow extends JFrame {
 		
 		this.criarMascaraData();
 		this.iniciarComponentes();
+		this.usuarioService = new UsuarioService();
 		
 	//	this.cadastrarUsuario();
 	}
@@ -93,6 +94,18 @@ public class CadastroWindow extends JFrame {
 					
 					return "Não informado";
 				}
+	}
+	public boolean validarNomeUsuario() {
+		try {
+			if(this.usuarioService.validarNomeUsuario(txtNomeUsuario.getText())) {
+				return true;
+			}else {
+				return false;
+			}
+		} catch (SQLException | IOException | NumberFormatException e) {
+			System.out.println(e);
+			return false;
+		}
 	}
 	
 	public static boolean validarEmail(String email) {
@@ -140,6 +153,7 @@ public class CadastroWindow extends JFrame {
 			
 			}
 			catch (SQLIntegrityConstraintViolationException e) {
+				System.out.println(e);
 				JOptionPane.showMessageDialog(null, "Nome de usuario já cadastrado.", "ERRO", JOptionPane.ERROR_MESSAGE);
 			}
 		    catch(ParseException e) {
@@ -257,7 +271,7 @@ public class CadastroWindow extends JFrame {
 		btnCadastrarUsuario = new JButton("Cadastrar novo usuário");
 		btnCadastrarUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(validarCampos())
+				if(validarCampos() && validarNomeUsuario())
 				cadastrarUsuario();
 				else
 					JOptionPane.showMessageDialog(btnCadastrarUsuario, "Campo vazio ou invalido", "Aviso", JOptionPane.WARNING_MESSAGE);
