@@ -136,7 +136,7 @@ public class CadastroWindow extends JFrame {
 		
 		try {
 			
-				SimpleDateFormat formato = new SimpleDateFormat("dd/mm/yyyy");
+				SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 				
 				Usuario usuario = new Usuario();
 				this.usuarioService = new UsuarioService();
