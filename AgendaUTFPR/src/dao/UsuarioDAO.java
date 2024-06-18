@@ -14,6 +14,28 @@ public class UsuarioDAO {
 		this.conn = conn;
 	}
 	
+	public void atualizarUsuario(Usuario usuario) throws SQLException {
+		
+		PreparedStatement st = null;
+		
+		try {
+			
+			st = conn.prepareStatement(
+					"UPDATE usuario SET nome_completo = ?, data_nascimento = ?, genero = ?, email = ?, nome_usuario = ? WHERE nome_usuario = ?");
+			
+			st.setString(1, usuario.getNomeCompleto());
+			st.setDate(2, new Date(usuario.getDataNascimento().getTime()));
+			st.setString(3, usuario.getGenero());
+			st.setString(4, usuario.getEmail());
+			st.setString(5, usuario.getNomeUsuario());
+			st.setString(6, usuario.getNomeUsuario());
+			st.executeUpdate();
+		} finally {
+			BancoDados.finalizarStatement(st);
+            BancoDados.desconectar();
+		}
+	}
+	
 	public List<Usuario> buscarUsuarios() throws SQLException {
 		
 		PreparedStatement st = null;
