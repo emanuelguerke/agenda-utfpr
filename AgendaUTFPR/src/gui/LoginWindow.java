@@ -2,12 +2,12 @@ package gui;
 
 import java.awt.EventQueue;
 
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import entities.Usuario;
-import gui.MenuPrincipalWindow;
 import service.UsuarioService;
 
 import javax.swing.JLabel;
@@ -33,7 +33,7 @@ public class LoginWindow extends JFrame {
 	private JPasswordField fieldSenha;
 	private UsuarioService usuarioService;
 	private CadastroWindow usuarioWindow;
-	private MenuPrincipalWindow menuPrincipalWindow;
+	private AgendaWindow agendaWindow;
 
 	public LoginWindow() {
 		this.iniciarComponentes();
@@ -49,10 +49,10 @@ public class LoginWindow extends JFrame {
 		this.setVisible(false);
 		
 	}
-	private void abrirTelaPrincipal() {
+	private void abrirAgenda() {
 		
-		MenuPrincipalWindow menuPrincipal = new MenuPrincipalWindow();
-		menuPrincipal.setVisible(true);
+		AgendaWindow agendaWindow = new AgendaWindow();
+		agendaWindow.setVisible(true);
 		
 		this.setVisible(false);
 		
@@ -118,8 +118,10 @@ public class LoginWindow extends JFrame {
 		btnEntrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (validarCampos() && validarSenhaUsuario()) {
+					
 					JOptionPane.showMessageDialog(btnEntrar, "Login realizado!", "Aviso", JOptionPane.WARNING_MESSAGE);
-					abrirTelaPrincipal(); 
+					abrirAgenda(); 
+					
 				} else {
 					JOptionPane.showMessageDialog(btnEntrar, "Usuario ou senha incorretas/inválidas", "Aviso", JOptionPane.WARNING_MESSAGE);
 				}
