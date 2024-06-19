@@ -22,6 +22,8 @@ import java.text.SimpleDateFormat;
 import java.util.regex.Pattern;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
+import java.awt.JobAttributes;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
@@ -224,11 +226,11 @@ public class AtualizarCadastroWindow extends JFrame {
 		
 		JLabel lblTitulo = new JLabel("Atualizar dados");
 		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 25));
-		lblTitulo.setBounds(129, 11, 233, 31);
+		lblTitulo.setBounds(130, 11, 233, 31);
 		contentPane.add(lblTitulo);
 		
 		JSeparator separator = new JSeparator();
-		separator.setBounds(10, 48, 446, 2);
+		separator.setBounds(10, 45, 482, 2);
 		contentPane.add(separator);
 		
 		JPanel painelInfoUsuarios = new JPanel();
@@ -336,9 +338,19 @@ public class AtualizarCadastroWindow extends JFrame {
 		btnExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				excluirUsuario();
-				JOptionPane.showMessageDialog(btnExcluir, "Usuário excluído com sucesso!");
-				voltarLogin();
+				String[] opcoes = {"Sim", "Não"}; 
+				
+				int opcao = JOptionPane.showOptionDialog(btnExcluir, "Deseja excluir seu usuário?", "Comfirmação", JOptionPane.DEFAULT_OPTION,
+						JOptionPane.INFORMATION_MESSAGE, null, opcoes, opcoes[0]);
+				
+				if (opcao == 0) {
+					excluirUsuario();
+					JOptionPane.showMessageDialog(btnExcluir, "Usuário excluído com sucesso!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+					voltarLogin();
+					
+				} else if (opcao == 1) {
+					JOptionPane.showMessageDialog(btnExcluir, "Operação cancelada!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+				}
 				
 			}
 		});
