@@ -271,9 +271,10 @@ public class CadastroWindow extends JFrame {
 		btnCadastrarUsuario = new JButton("Cadastrar novo usuário");
 		btnCadastrarUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(validarCampos() && validarNomeUsuario())
-				cadastrarUsuario();
-				else
+				if(validarCampos() && validarNomeUsuario()){
+					cadastrarUsuario();
+					voltarLogin();
+				}else
 					JOptionPane.showMessageDialog(btnCadastrarUsuario, "Campo vazio ou invalido", "Aviso", JOptionPane.WARNING_MESSAGE);
 			}
 		});
