@@ -1,40 +1,42 @@
 package gui;
 
 import java.awt.EventQueue;
-
-import javax.swing.BorderFactory;
-import javax.swing.ButtonGroup;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.text.MaskFormatter;
-
-import entities.Usuario;
-import service.UsuarioService;
-
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
 import java.awt.Font;
-import javax.swing.JSeparator;
-import javax.swing.JTextField;
-import javax.swing.JRadioButton;
-import javax.swing.JPasswordField;
-import javax.swing.JButton;
-import javax.swing.JFormattedTextField;
-
+import java.awt.Image;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.List;
 import java.util.regex.Pattern;
-import java.awt.event.ActionEvent;
-import javax.swing.JMenu;
+
+import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JFormattedTextField;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JRadioButton;
+import javax.swing.JSeparator;
+import javax.swing.JTextField;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.text.MaskFormatter;
+
+import entities.Usuario;
+import service.UsuarioService;
 
 public class CadastroWindow extends JFrame {
 
@@ -53,8 +55,12 @@ public class CadastroWindow extends JFrame {
 	private JRadioButton rbNaoInformar;
 	private UsuarioService usuarioService;
 	private JButton btnCadastrarUsuario;
+	private FileInputStream fis;
+	private int tamanho;
 	
 	private LoginWindow loginWindow;
+	private JLabel lblFotoPerfil;
+	private JButton btnAddFoto;
 
 	public CadastroWindow() {
 		
@@ -63,6 +69,35 @@ public class CadastroWindow extends JFrame {
 		this.usuarioService = new UsuarioService();
 		
 	//	this.cadastrarUsuario();
+	}
+	
+	private void carregarFoto() {
+		
+		JFileChooser foto = new JFileChooser("D:\\Imagens");
+		
+		foto.setDialogTitle("Selecionar arquivo");
+		FileNameExtensionFilter filtro = new FileNameExtensionFilter("Arquivo de imagens (*.PNG,*.JPG,*.JPEG) ", "png","jpg","jpeg");
+		foto.setFileFilter(filtro);
+		
+		int resultado = foto.showOpenDialog(null);
+		
+		if (resultado == JFileChooser.APPROVE_OPTION) {
+			try {
+				
+				fis = new FileInputStream(foto.getSelectedFile());
+				tamanho = (int) foto.getSelectedFile().length();
+				
+				Image fotoPerfil = ImageIO.read(foto.getSelectedFile()).getScaledInstance(lblFotoPerfil.getWidth(),
+												lblFotoPerfil.getHeight(), Image.SCALE_SMOOTH);
+				lblFotoPerfil.setIcon(new ImageIcon(fotoPerfil));
+				lblFotoPerfil.updateUI();
+				
+				
+			} catch (Exception e) {
+				
+				JOptionPane.showMessageDialog(null, "Erro ao adicionar a imagem", "Erro", JOptionPane.ERROR_MESSAGE);
+			}
+		}
 	}
 	
 	private void voltarLogin() {
@@ -175,7 +210,7 @@ public class CadastroWindow extends JFrame {
 	private void iniciarComponentes() {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 449, 615);
+		setBounds(100, 100, 682, 615);
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -194,16 +229,16 @@ public class CadastroWindow extends JFrame {
 		contentPane.setLayout(null);
 		
 		JLabel lblCadastroUsuario = new JLabel("Cadastro de usuário");
-		lblCadastroUsuario.setBounds(82, 11, 280, 32);
+		lblCadastroUsuario.setBounds(175, 11, 280, 32);
 		lblCadastroUsuario.setFont(new Font("Tahoma", Font.BOLD, 26));
 		contentPane.add(lblCadastroUsuario);
 		
 		JSeparator separator = new JSeparator();
-		separator.setBounds(26, 54, 386, 2);
+		separator.setBounds(26, 54, 588, 2);
 		contentPane.add(separator);
 		
 		painelInfoPessoais = new JPanel();
-		painelInfoPessoais.setBounds(55, 67, 324, 264);
+		painelInfoPessoais.setBounds(55, 67, 601, 264);
 		contentPane.add(painelInfoPessoais);
 		painelInfoPessoais.setLayout(null);
 		painelInfoPessoais.setBorder(BorderFactory.createTitledBorder("Informações pessoais"));
@@ -250,8 +285,30 @@ public class CadastroWindow extends JFrame {
 		grupoBotao.add(rbFeminino);
 		grupoBotao.add(rbNaoInformar);
 		
+		JPanel painelFoto = new JPanel();
+		painelFoto.setBounds(365, 24, 181, 214);
+		painelInfoPessoais.add(painelFoto);
+		painelFoto.setLayout(null);
+		painelFoto.setBorder(BorderFactory.createTitledBorder("Foto de perfil"));
+		
+		lblFotoPerfil = new JLabel("");
+		lblFotoPerfil.setBounds(25, 28, 132, 128);
+		painelFoto.add(lblFotoPerfil);
+		lblFotoPerfil.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		lblFotoPerfil.setIcon(new ImageIcon(CadastroWindow.class.getResource("/img/9111001_folder_photo_icon.png")));
+		
+		btnAddFoto = new JButton("Adicionar foto");
+		btnAddFoto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				carregarFoto();
+			}
+		});
+		btnAddFoto.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnAddFoto.setBounds(35, 169, 111, 23);
+		painelFoto.add(btnAddFoto);
+		
 		JPanel painelInfoUsuario = new JPanel();
-		painelInfoUsuario.setBounds(55, 335, 324, 161);
+		painelInfoUsuario.setBounds(190, 335, 324, 161);
 		contentPane.add(painelInfoUsuario);
 		painelInfoUsuario.setLayout(null);
 		painelInfoUsuario.setBorder(BorderFactory.createTitledBorder("Informações de usuário"));
@@ -293,7 +350,7 @@ public class CadastroWindow extends JFrame {
 			}
 		});
 		btnCadastrarUsuario.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnCadastrarUsuario.setBounds(117, 507, 199, 39);
+		btnCadastrarUsuario.setBounds(256, 498, 199, 39);
 		contentPane.add(btnCadastrarUsuario);
 	}
 	
