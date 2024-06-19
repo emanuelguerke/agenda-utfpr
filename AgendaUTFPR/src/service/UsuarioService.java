@@ -27,21 +27,27 @@ public class UsuarioService {
 		new UsuarioDAO(conn).cadastrarUsuario(usuario);
 	}
 	
-public boolean validarSenhaUsuario(String usuario, String senha) throws SQLException, IOException {
+	public boolean validarSenhaUsuario(String usuario, String senha) throws SQLException, IOException {
 		
 		Connection conn = BancoDados.conectar();
 		return (new UsuarioDAO(conn).validarSenhaUsuario(usuario,senha));
 	}
-public boolean validarNomeUsuario(String usuario) throws SQLException, IOException {
+	public boolean validarNomeUsuario(String usuario) throws SQLException, IOException {
 	
-	Connection conn = BancoDados.conectar();
-	return (new UsuarioDAO(conn).validarNomeUsuario(usuario));
+		Connection conn = BancoDados.conectar();
+		return (new UsuarioDAO(conn).validarNomeUsuario(usuario));
 }
 
-public void atualizarUsuario(Usuario usuario, String nomeUsuario) throws SQLException, IOException {
+	public void atualizarUsuario(Usuario usuario, String nomeUsuario) throws SQLException, IOException {
 		
-	Connection conn = BancoDados.conectar();
-	new UsuarioDAO(conn).atualizarUsuario(usuario, nomeUsuario);
+		Connection conn = BancoDados.conectar();
+		new UsuarioDAO(conn).atualizarUsuario(usuario, nomeUsuario);
 }
+
+	public void excluirUsuario(Usuario usuario, String nomeUsuario) throws SQLException, IOException {
+		
+		Connection conn = BancoDados.conectar();
+		new UsuarioDAO(conn).excluirUsuario(usuario, nomeUsuario);
+	}
 
 }
