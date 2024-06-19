@@ -32,6 +32,9 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.awt.event.ActionEvent;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 
 public class CadastroWindow extends JFrame {
 
@@ -173,6 +176,17 @@ public class CadastroWindow extends JFrame {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 449, 615);
+		
+		JMenuBar menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+		
+		JMenuItem mntmVoltar = new JMenuItem("Voltar");
+		mntmVoltar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				voltarLogin();
+			}
+		});
+		menuBar.add(mntmVoltar);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -271,10 +285,10 @@ public class CadastroWindow extends JFrame {
 		btnCadastrarUsuario = new JButton("Cadastrar novo usuário");
 		btnCadastrarUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(validarCampos() && validarNomeUsuario()){
+				if(validarCampos() && validarNomeUsuario()) {
 					cadastrarUsuario();
 					voltarLogin();
-				}else
+				} else
 					JOptionPane.showMessageDialog(btnCadastrarUsuario, "Campo vazio ou invalido", "Aviso", JOptionPane.WARNING_MESSAGE);
 			}
 		});
