@@ -50,14 +50,26 @@ public class AtualizarCadastroWindow extends JFrame {
 	private ButtonGroup grupoBotao;
 	
 	public AtualizarCadastroWindow(String nomeUsuario) {
+		
 		this.nome = nomeUsuario;
 		this.criarMascaraData();
+		
 		usuarioService = new UsuarioService();
 		this.iniciarComponentes();
+		
 		loginWindow = new LoginWindow();
 		System.out.println("teste");
 		System.out.println(nome);
 	}
+	
+	private void voltarLogin() {
+		
+		LoginWindow voltar = new LoginWindow();
+		voltar.setVisible(true);
+		
+		this.dispose();
+	}
+	
 	public boolean validarCampos() {
 		if( validarEmail(txtEmail.getText()) && txtNomeCompleto.getText() != null && !txtNomeCompleto.getText().isEmpty() && txtNomeUsuario.getText() != null && !txtNomeUsuario.getText().isEmpty() && fieldSenha.getText() != null && !fieldSenha.getText().isEmpty()) {
 			return true;
@@ -66,10 +78,13 @@ public class AtualizarCadastroWindow extends JFrame {
 		}
 		
 	}
+	
 	public static boolean validarEmail(String email) {
+		
 	    final Pattern EMAIL_REGEX = Pattern.compile("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", Pattern.CASE_INSENSITIVE);
 	    return EMAIL_REGEX.matcher(email).matches();
 	}
+	
 	private String verificarSelecaoSexo() {
 		
 		if (this.rbMasculino.isSelected()) {
@@ -85,18 +100,24 @@ public class AtualizarCadastroWindow extends JFrame {
 					return "Não informado";
 				}
 	}
+	
 	public boolean validarNomeUsuario() {
+		
 		try {
-			if(this.usuarioService.validarNomeUsuario(txtNomeUsuario.getText())) {
-				return true;
-			}else {
+				if (this.usuarioService.validarNomeUsuario(txtNomeUsuario.getText())) {
+					return true;
+				
+			} else {
 				return false;
+				
 			}
+			
 		} catch (SQLException | IOException | NumberFormatException e) {
 			System.out.println(e);
 			return false;
 		}
 	}
+	
 	private void criarMascaraData() {
 		
 		try {
@@ -117,9 +138,6 @@ public class AtualizarCadastroWindow extends JFrame {
 		this.dispose();
 	}
 	
-	private void atualizarDados() {
-		
-	}
 	private void limparComponentes() {
 		
 		this.txtNomeCompleto.setText("");
@@ -128,8 +146,27 @@ public class AtualizarCadastroWindow extends JFrame {
 		this.txtEmail.setText("");
 		this.fieldSenha.setText("");
 		this.txtDataNascimento.setText("");
+		
 	}
-private void atualizarUsuario() {
+	
+	private void excluirUsuario() {
+	
+		try {
+			
+			Usuario usuario = new Usuario();
+			this.usuarioService = new UsuarioService();
+			
+			this.usuarioService.excluirUsuario(usuario, nome);
+			nome = txtNomeUsuario.getText();
+			
+		} catch (SQLException | IOException e) {
+			
+			JOptionPane.showMessageDialog(null, "Não foi possível excluir o usuario!");
+		}
+		
+	}
+	
+	private void atualizarUsuario() {
 		
 		try {
 			
@@ -161,15 +198,14 @@ private void atualizarUsuario() {
 				
 				JOptionPane.showMessageDialog(null, "Não foi possivel cadastrar um novo usuário.", "ERRO", JOptionPane.ERROR_MESSAGE);
 				System.out.println(e);
-			}
-		
-			
-			
+			}	
 	}
+	
+	
 	private void iniciarComponentes() {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 518, 374);
+		setBounds(100, 100, 518, 511);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -177,7 +213,7 @@ private void atualizarUsuario() {
 		contentPane.setLayout(null);
 		
 		JButton btnVoltar = new JButton("Voltar");
-		btnVoltar.setFont(new Font("Tahoma", Font.BOLD, 13));
+		btnVoltar.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				voltarAgenda();
@@ -265,7 +301,7 @@ private void atualizarUsuario() {
 			}
 		});
 		btnAtualizarDados.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnAtualizarDados.setBounds(168, 199, 127, 41);
+		btnAtualizarDados.setBounds(168, 199, 151, 41);
 		painelInfoUsuarios.add(btnAtualizarDados);
 		
 		txtDataNascimento = new JFormattedTextField(this.mascaraData);
@@ -279,5 +315,35 @@ private void atualizarUsuario() {
 		fieldSenha = new JPasswordField();
 		fieldSenha.setBounds(127, 161, 151, 20);
 		painelInfoUsuarios.add(fieldSenha);
+		
+		JPanel painelExcluir = new JPanel();
+		painelExcluir.setBounds(10, 329, 482, 132);
+		contentPane.add(painelExcluir);
+		painelExcluir.setLayout(null);
+		painelExcluir.setBorder(BorderFactory.createTitledBorder("Excluir conta"));
+		
+		JLabel lblExcluir = new JLabel("Deseja excluir a conta?");
+		lblExcluir.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblExcluir.setBounds(133, 23, 191, 14);
+		painelExcluir.add(lblExcluir);
+		
+		JLabel lblCliqueAqui = new JLabel("Clique aqui:");
+		lblCliqueAqui.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblCliqueAqui.setBounds(186, 48, 68, 14);
+		painelExcluir.add(lblCliqueAqui);
+		
+		JButton btnExcluir = new JButton("Excluir ");
+		btnExcluir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				excluirUsuario();
+				JOptionPane.showMessageDialog(btnExcluir, "Usuário excluído com sucesso!");
+				voltarLogin();
+				
+			}
+		});
+		btnExcluir.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnExcluir.setBounds(167, 73, 109, 37);
+		painelExcluir.add(btnExcluir);
 	}
 }
