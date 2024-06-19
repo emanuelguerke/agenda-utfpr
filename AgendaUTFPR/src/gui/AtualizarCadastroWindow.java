@@ -146,6 +146,7 @@ private void atualizarUsuario() {
 				usuario.setSenha(this.fieldSenha.getText());
 				
 				this.usuarioService.atualizarUsuario(usuario, nome);
+				nome = 	txtNomeUsuario.getText();
 				this.limparComponentes();
 			
 			}
@@ -179,7 +180,6 @@ private void atualizarUsuario() {
 		btnVoltar.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btnVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
 				voltarAgenda();
 			}
 		});
