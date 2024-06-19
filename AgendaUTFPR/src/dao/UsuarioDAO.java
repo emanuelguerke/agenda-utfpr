@@ -141,4 +141,23 @@ public class UsuarioDAO {
 			BancoDados.desconectar();
 		}
 	}
+	
+	public void excluirUsuario(Usuario usuario, String nomeUsuario) throws SQLException {
+		
+		PreparedStatement st = null;
+		
+		try {
+			
+			st = conn.prepareStatement("DELETE FROM usuario WHERE nome_usuario = ?");
+			
+			st.setString(1, nomeUsuario);
+			
+			st.executeUpdate();
+		
+		} finally {
+			
+			BancoDados.finalizarStatement(st);
+			BancoDados.desconectar();
+		}
+	}
 }
