@@ -38,10 +38,10 @@ public boolean validarNomeUsuario(String usuario) throws SQLException, IOExcepti
 	return (new UsuarioDAO(conn).validarNomeUsuario(usuario));
 }
 
-public void atualizarUsuario(Usuario usuario) throws SQLException, IOException {
+public void atualizarUsuario(Usuario usuario, String nomeUsuario) throws SQLException, IOException {
 		
 	Connection conn = BancoDados.conectar();
-	new UsuarioDAO(conn).atualizarUsuario(usuario);
+	new UsuarioDAO(conn).atualizarUsuario(usuario, nomeUsuario);
 }
 
 }

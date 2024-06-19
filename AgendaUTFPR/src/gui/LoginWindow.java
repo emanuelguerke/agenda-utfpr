@@ -34,6 +34,7 @@ public class LoginWindow extends JFrame {
 	private UsuarioService usuarioService;
 	private CadastroWindow usuarioWindow;
 	private AgendaWindow agendaWindow;
+	
 
 	public LoginWindow() {
 		this.iniciarComponentes();
@@ -49,9 +50,9 @@ public class LoginWindow extends JFrame {
 		this.setVisible(false);
 		
 	}
-	private void abrirAgenda() {
+	private void abrirAgenda(String nomeUsuario) {
 		
-		AgendaWindow agendaWindow = new AgendaWindow();
+		AgendaWindow agendaWindow = new AgendaWindow(nomeUsuario);
 		agendaWindow.setVisible(true);
 		
 		this.setVisible(false);
@@ -78,6 +79,7 @@ public class LoginWindow extends JFrame {
 			return false;
 		}
 	}
+	
 	private void iniciarComponentes() {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -120,7 +122,7 @@ public class LoginWindow extends JFrame {
 				if (validarCampos() && validarSenhaUsuario()) {
 					
 					JOptionPane.showMessageDialog(btnEntrar, "Login realizado!", "Aviso", JOptionPane.WARNING_MESSAGE);
-					abrirAgenda(); 
+					abrirAgenda(txtNomeUsuario.getText()); 
 					
 				} else {
 					JOptionPane.showMessageDialog(btnEntrar, "Usuario ou senha incorretas/inválidas", "Aviso", JOptionPane.WARNING_MESSAGE);
