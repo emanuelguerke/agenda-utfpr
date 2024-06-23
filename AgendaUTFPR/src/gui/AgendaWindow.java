@@ -33,6 +33,7 @@ import javax.swing.JLabel;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
 import javax.swing.ListSelectionModel;
+import javax.swing.JComboBox;
 
 public class AgendaWindow extends JFrame {
 
@@ -50,6 +51,9 @@ public class AgendaWindow extends JFrame {
 	private JLabel lblNome;
 	private JLabel lblDescricao;
 	private JTextField txtDescricao;
+	private JPanel panel_1;
+	private JLabel lblExcluirAgenda;
+	private JComboBox<String> cbAgenda;
 	/**
 	 * Launch the application.
 	 */
@@ -79,6 +83,7 @@ public class AgendaWindow extends JFrame {
 		
 		this.txtNome.setText("");
 		this.txtDescricao.setText("");
+		this.cbAgenda.setSelectedIndex(0);
 	}
 	
 	private void cadastrarAgenda() {
@@ -114,7 +119,9 @@ public class AgendaWindow extends JFrame {
 			DefaultListModel DLM = new DefaultListModel<>();
 			List<Agenda> agendas = this.agendaService.buscarAgendas(idUsuario);
 			for (Agenda agenda : agendas) {
+					this.cbAgenda.addItem(agenda.getNome());
 					DLM.addElement(agenda.getNome());
+					
 					System.out.println(agenda.getNome());
 			}		
 			lstAgenda.setModel(DLM);
@@ -138,16 +145,20 @@ public class AgendaWindow extends JFrame {
 			
 	}
 	
+	public void excluirAgenda() {
+		
+	}
+	
 	public void iniciarComponentes() {
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			setBounds(100, 100, 554, 545);
+			setBounds(100, 100, 557, 603);
 			contentPane = new JPanel();
 			contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 	
 			setContentPane(contentPane);
 			
 			JButton btnAtualizar = new JButton("Atualizar Cadastro");
-			btnAtualizar.setBounds(163, 460, 180, 23);
+			btnAtualizar.setBounds(165, 530, 180, 23);
 			btnAtualizar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					abrirAtualizarCadastro(nome);
@@ -158,7 +169,7 @@ public class AgendaWindow extends JFrame {
 			
 			lstAgenda = new JList();
 			lstAgenda.setBorder(new LineBorder(new Color(0, 0, 0)));
-			lstAgenda.setBounds(54, 180, 436, 258);
+			lstAgenda.setBounds(54, 261, 436, 258);
 			lstAgenda.addListSelectionListener(new ListSelectionListener() {
 				public void valueChanged(ListSelectionEvent e) {
 					int index = lstAgenda.getSelectedIndex();
@@ -171,17 +182,17 @@ public class AgendaWindow extends JFrame {
 			contentPane.add(lstAgenda);
 			
 			separator = new JSeparator();
-			separator.setBounds(54, 167, 442, 2);
+			separator.setBounds(48, 248, 442, 2);
 			contentPane.add(separator);
 			
 			JPanel panel = new JPanel();
 			panel.setBorder(new LineBorder(new Color(0, 0, 0)));
-			panel.setBounds(46, 11, 450, 145);
+			panel.setBounds(10, 11, 521, 111);
 			contentPane.add(panel);
 			panel.setLayout(null);
 			
 			txtNome = new JTextField();
-			txtNome.setBounds(92, 34, 252, 20);
+			txtNome.setBounds(10, 42, 234, 20);
 			panel.add(txtNome);
 			txtNome.setColumns(10);
 			
@@ -189,16 +200,16 @@ public class AgendaWindow extends JFrame {
 			lblNewLabel.setBounds(10, 0, 176, 14);
 			panel.add(lblNewLabel);
 			
-			lblNome = new JLabel("Nome:");
-			lblNome.setBounds(10, 37, 46, 14);
+			lblNome = new JLabel("Nome");
+			lblNome.setBounds(10, 22, 46, 14);
 			panel.add(lblNome);
 			
-			lblDescricao = new JLabel("Descrição:");
-			lblDescricao.setBounds(10, 62, 78, 14);
+			lblDescricao = new JLabel("Descrição");
+			lblDescricao.setBounds(259, 22, 78, 14);
 			panel.add(lblDescricao);
 			
 			txtDescricao = new JTextField();
-			txtDescricao.setBounds(92, 59, 252, 20);
+			txtDescricao.setBounds(254, 42, 257, 20);
 			panel.add(txtDescricao);
 			txtDescricao.setColumns(10);
 			
@@ -209,8 +220,31 @@ public class AgendaWindow extends JFrame {
 					buscarAgendas();
 				}
 			});
-			btnCadastrar.setBounds(154, 99, 114, 23);
+			btnCadastrar.setBounds(183, 73, 114, 23);
 			panel.add(btnCadastrar);
+			
+			panel_1 = new JPanel();
+			panel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
+			panel_1.setBounds(10, 133, 521, 111);
+			contentPane.add(panel_1);
+			panel_1.setLayout(null);
+			
+			lblExcluirAgenda = new JLabel("Excluir Agenda");
+			lblExcluirAgenda.setBounds(10, 0, 87, 14);
+			panel_1.add(lblExcluirAgenda);
+			
+			cbAgenda = new JComboBox<String>();
+			cbAgenda.setBounds(90, 36, 342, 22);
+			panel_1.add(cbAgenda);
+			
+			JButton btnExcluirAgenda = new JButton("Excluir Agenda");
+			btnExcluirAgenda.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					excluirAgenda();
+				}
+			});
+			btnExcluirAgenda.setBounds(180, 69, 129, 23);
+			panel_1.add(btnExcluirAgenda);
 	}
 
 	public AgendaWindow(String nomeUsuario) {
