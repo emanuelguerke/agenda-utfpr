@@ -35,16 +35,16 @@ public class AgendaDAO {
 		}
 	}
 	
-	public void cadastrarAgenda(Agenda agenda) throws SQLException {
+	public void cadastrarAgenda(Agenda agenda, int idUsuario) throws SQLException {
 		
 		PreparedStatement st = null;
 		
 		try {
-			st = conn.prepareStatement("INSERT IGNORE INTO usuario (nome, descricao, id_usuario) VALUES (?, ?, ?)");
+			st = conn.prepareStatement("INSERT IGNORE INTO agenda (nome, descricao, id_usuario) VALUES (?, ?, ?)");
 			st.setString(1, agenda.getNome());
 			st.setString(2, agenda.getDescricao());
 		
-			st.setInt(3, id_usuario);
+			st.setInt(3, idUsuario);
 			st.executeUpdate();
 			
 		} finally {

@@ -13,10 +13,10 @@ import entities.Usuario;
 
 public class AgendaService {
 	
-	public void cadastrar(Agenda agenda) throws SQLException, IOException {
+	public void cadastrar(Agenda agenda, int idUsuario) throws SQLException, IOException {
 		
 		Connection conn = BancoDados.conectar();
-		new AgendaDAO(conn).cadastrarAgenda(agenda);
+		new AgendaDAO(conn).cadastrarAgenda(agenda, idUsuario);
 	}
 	
 	public List<Agenda> buscarAgendas(int idUsuario) throws SQLException, IOException {
