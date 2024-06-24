@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 23-Jun-2024 às 06:51
+-- Tempo de geração: 24-Jun-2024 às 21:31
 -- Versão do servidor: 10.4.32-MariaDB
 -- versão do PHP: 8.2.12
 
@@ -39,9 +39,24 @@ CREATE TABLE `agenda` (
 --
 
 INSERT INTO `agenda` (`nome`, `descricao`, `id`, `id_usuario`) VALUES
-('Aniversarios', 'agenda de aniversarios', 1, 13),
-('Festas', 'agenda para festas ', 2, 13),
-('Festas123', 'agenda de festas do emanuel', 3, 1);
+('pasteladas', 'pasteladas da igreja', 6, 13),
+('rodeios', 'rodeios em ponta grossa', 8, 13),
+('uiui', 'uiui123', 9, 13),
+('aniversarios', 'aniversarios boladoes', 13, 13),
+('sdds', 'dsdsds', 15, 13),
+('dsdsds', 'dsds', 16, 13),
+('aaaaaaaaaaaaa', 'aaaaaaaaaaaaaaaaaaaaa', 17, 13),
+('zzzzzzzzzzzzzzzzz', 'xxxxxxxxxxxxxxxxxxxxxxxxx', 18, 13),
+('ccccccccccccccc', 'xxxxxxxxxxxxxxxxx', 19, 13),
+('qqqqqqqqqqqq', 'sssssssssss', 20, 13),
+('aaaaaaaaaaaaaa', 'qqqqqqqq', 21, 13),
+('dddddddddddd', 'ssss', 22, 13),
+('ddddddddd', 'aaaaaa', 23, 13),
+('ddddddddddd', 'aaaaaaaaaaaaa', 24, 13),
+('wwwwwwwwww', 'wwwwwwwww', 25, 13),
+('Aniversario', 'aninini', 26, 1),
+('provas', 'provas da universidade', 27, 1),
+('Festas', 'festas legais', 28, 1);
 
 -- --------------------------------------------------------
 
@@ -52,8 +67,8 @@ INSERT INTO `agenda` (`nome`, `descricao`, `id`, `id_usuario`) VALUES
 CREATE TABLE `compromisso` (
   `titulo` varchar(100) NOT NULL,
   `descricao` varchar(500) NOT NULL,
-  `dataHoraInicio` date NOT NULL,
-  `dataHoraFim` date NOT NULL,
+  `dataHoraInicio` datetime NOT NULL,
+  `dataHoraFim` datetime NOT NULL,
   `id` int(11) NOT NULL,
   `local` varchar(100) NOT NULL,
   `id_agenda` int(11) NOT NULL
@@ -64,7 +79,9 @@ CREATE TABLE `compromisso` (
 --
 
 INSERT INTO `compromisso` (`titulo`, `descricao`, `dataHoraInicio`, `dataHoraFim`, `id`, `local`, `id_agenda`) VALUES
-('aniversario do joaquim', 'festa na casa do joaquim muito legal', '2024-06-13', '2024-06-15', 1, 'casa do joaquim', 1);
+('festa na casa do joaquim', 'festa na casa do joaquim', '2024-06-24 07:13:00', '2024-07-17 11:28:00', 1, 'ponta grossa', 13),
+('aniversario da paula', 'aniversario da paula', '2024-06-25 12:26:00', '2024-06-24 15:18:16', 2, 'curitiba', 13),
+('aniversario do emanuel', 'aniversario muito bom', '2024-06-24 16:26:38', '2024-06-24 17:26:38', 3, 'casa do emanuel', 26);
 
 -- --------------------------------------------------------
 
@@ -87,7 +104,7 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`nome_completo`, `data_nascimento`, `genero`, `email`, `nome_usuario`, `senha`, `id`) VALUES
-('EMANUEL', '2000-01-10', 'Masculino', 'EMANUEL@GMAIL.COM', 'EMANUEL', '332323232', 1),
+('EMANUEL', '2000-01-10', 'Masculino', 'EMANUEL@GMAIL.COM', 'EMANUEL', '123', 1),
 ('EMANUEL2', '2012-01-12', 'Não informado', 'EMANUEL@GMAIL.COM', 'EMANUEL2', '23323232', 3),
 ('emanuel', '2232-01-22', 'Masculino', 'emanuel@gmail.com', 'emanuel3', '233223', 6),
 ('sdsds', '1222-01-12', 'Não informado', 'sddsds@gmail.com', 'sdsds', '23232', 7),
@@ -128,13 +145,13 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de tabela `agenda`
 --
 ALTER TABLE `agenda`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT de tabela `compromisso`
 --
 ALTER TABLE `compromisso`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de tabela `usuario`

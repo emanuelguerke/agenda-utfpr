@@ -55,6 +55,7 @@ public class AgendaWindow extends JFrame {
 	private JPanel panel_1;
 	private JLabel lblExcluirAgenda;
 	private JComboBox<String> cbAgenda;
+	private JScrollPane scrollPane;
 	/**
 	 * Launch the application.
 	 */
@@ -71,9 +72,9 @@ public class AgendaWindow extends JFrame {
 		this.setVisible(false);
 		
 	}
-	private void abrirCompromissos() {
+	private void abrirCompromissos(String nomeAgenda, int idUsuario) {
 		
-		CompromissoWindow compromissoWindow = new CompromissoWindow();
+		CompromissoWindow compromissoWindow = new CompromissoWindow(nomeAgenda, idUsuario);
 		compromissoWindow.setVisible(true);
 		
 		this.setVisible(false);
@@ -196,19 +197,22 @@ public class AgendaWindow extends JFrame {
 			contentPane.setLayout(null);
 			contentPane.add(btnAtualizar);
 			
+			scrollPane = new JScrollPane();
+			scrollPane.setBounds(54, 261, 436, 258);
+			contentPane.add(scrollPane);
+			
 			lstAgenda = new JList();
+			scrollPane.setViewportView(lstAgenda);
 			lstAgenda.setBorder(new LineBorder(new Color(0, 0, 0)));
-			lstAgenda.setBounds(54, 261, 436, 258);
 			lstAgenda.addListSelectionListener(new ListSelectionListener() {
 				public void valueChanged(ListSelectionEvent e) {
 					int index = lstAgenda.getSelectedIndex();
 					Object nomeEscolha = lstAgenda.getSelectedValue();
 					System.out.println(index);
-					System.out.println(nomeEscolha);
-	//				abrirCompromissos();
+					System.out.println(nomeEscolha.toString());
+					abrirCompromissos(nomeEscolha.toString(), idUsuario);
 				}
 			});
-			contentPane.add(lstAgenda);
 			
 			separator = new JSeparator();
 			separator.setBounds(48, 248, 442, 2);
