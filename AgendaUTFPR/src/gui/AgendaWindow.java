@@ -44,6 +44,7 @@ public class AgendaWindow extends JFrame {
 	private AgendaService agendaService;
 	private JList lstAgenda;
 	private int idUsuario;
+	private int idAgenda;
 	private String escolha;
 	private JSeparator separator;
 	private JTextField txtNome;
@@ -99,6 +100,7 @@ public class AgendaWindow extends JFrame {
 				
 				this.agendaService.cadastrar(agenda, idUsuario);
 				this.limparComponentes();
+				this.cbAgenda.removeAllItems();
 			
 			}
 			catch (SQLException | IOException e) {
@@ -144,8 +146,35 @@ public class AgendaWindow extends JFrame {
 		return idUsuario;
 			
 	}
+	public int buscarIdAgenda(String nome) {
+		try {
+			System.out.println(nome);
+			return agendaService.buscarId(nome);
+			
+		}catch(SQLException | IOException e) {
+			JOptionPane.showMessageDialog(null, "Erro ao carregar agenda","Buscar ids", JOptionPane.ERROR_MESSAGE);
+			System.out.println(e);
+		}
+		return idAgenda;
+			
+	}
 	
-	public void excluirAgenda() {
+	private void excluirAgenda(String nomeAgenda) {
+		
+		try {
+			idUsuario = buscarId(nome);
+			Agenda agenda = new Agenda();
+			this.agendaService = new AgendaService();
+			
+			this.agendaService.excluirAgenda(agenda, nomeAgenda,idUsuario);
+		//	nome = txtNomeUsuario.getText();
+			this.cbAgenda.removeAllItems();
+			buscarAgendas();
+			
+		} catch (SQLException | IOException e) {
+			
+			JOptionPane.showMessageDialog(null, "Não foi possível excluir o usuario!");
+		}
 		
 	}
 	
@@ -240,7 +269,7 @@ public class AgendaWindow extends JFrame {
 			JButton btnExcluirAgenda = new JButton("Excluir Agenda");
 			btnExcluirAgenda.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					excluirAgenda();
+					excluirAgenda(cbAgenda.getSelectedItem().toString());
 				}
 			});
 			btnExcluirAgenda.setBounds(180, 69, 129, 23);

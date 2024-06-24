@@ -31,5 +31,9 @@ public class AgendaService {
 		return new AgendaDAO(conn).buscarId(usuario);
 		
 	}
-	
+	public void excluirAgenda(Agenda agenda, String nomeAgenda, int idUsuario) throws SQLException, IOException {
+		
+		Connection conn = BancoDados.conectar();
+		new AgendaDAO(conn).excluirAgenda(agenda, nomeAgenda, idUsuario);
+	}
 }

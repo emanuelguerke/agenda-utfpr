@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import entities.Agenda;
+import entities.Usuario;
 
 
 public class AgendaDAO {
@@ -83,6 +84,25 @@ public class AgendaDAO {
 
 			BancoDados.finalizarStatement(st);
 			BancoDados.finalizarResultSet(rs);
+			BancoDados.desconectar();
+		}
+	}
+	public void excluirAgenda(Agenda agenda, String nomeAgenda, int idUsuario) throws SQLException {
+		
+		PreparedStatement st = null;
+		
+		try {
+			
+			st = conn.prepareStatement("DELETE FROM agenda WHERE nome = ? AND id_usuario = ?");
+			
+			st.setString(1, nomeAgenda);
+			st.setInt(2, idUsuario);
+			
+			st.executeUpdate();
+		
+		} finally {
+			
+			BancoDados.finalizarStatement(st);
 			BancoDados.desconectar();
 		}
 	}
