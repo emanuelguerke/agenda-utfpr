@@ -61,10 +61,6 @@ public class CadastroWindow extends JFrame {
 	private int tamanho;
 	
 	private LoginWindow loginWindow;
-	private JLabel lblFotoPerfil;
-	private JButton btnAddFoto;
-	
-	private ImagemService imagemService;
 
 	public CadastroWindow() {
 		
@@ -73,40 +69,6 @@ public class CadastroWindow extends JFrame {
 		this.usuarioService = new UsuarioService();
 		
 	//	this.cadastrarUsuario();
-	}
-	
-	private void carregarFoto() {
-		
-		JFileChooser foto = new JFileChooser("D:\\Imagens");
-		
-		foto.setDialogTitle("Selecionar arquivo");
-		FileNameExtensionFilter filtro = new FileNameExtensionFilter("Arquivo de imagens (*.PNG,*.JPG,*.JPEG) ", "png","jpg","jpeg");
-		foto.setFileFilter(filtro);
-		
-		int resultado = foto.showOpenDialog(null);
-		
-		if (resultado == JFileChooser.APPROVE_OPTION) {
-			try {
-				
-				fis = new FileInputStream(foto.getSelectedFile());
-				tamanho = (int) foto.getSelectedFile().length();
-				
-				Image fotoPerfil = ImageIO.read(foto.getSelectedFile()).getScaledInstance(lblFotoPerfil.getWidth(),
-												lblFotoPerfil.getHeight(), Image.SCALE_SMOOTH);
-				lblFotoPerfil.setIcon(new ImageIcon(fotoPerfil));
-				lblFotoPerfil.updateUI();
-				
-				Imagem imagem = new Imagem();
-				this.imagemService = new ImagemService();
-				
-				imagem.setNome(foto.getSelectedFile().getAbsolutePath());
-				
-				
-			} catch (Exception e) {
-				
-				JOptionPane.showMessageDialog(null, "Erro ao adicionar a imagem", "Erro", JOptionPane.ERROR_MESSAGE);
-			}
-		}
 	}
 	
 	private void voltarLogin() {
@@ -147,10 +109,10 @@ public class CadastroWindow extends JFrame {
 		
 		try {
 			
-			if(this.usuarioService.validarNomeUsuario(txtNomeUsuario.getText())) {
+			if (this.usuarioService.validarNomeUsuario(txtNomeUsuario.getText())) {
 				return true;
 				
-			}else {
+			} else {
 				return false;
 			}
 			
@@ -213,12 +175,13 @@ public class CadastroWindow extends JFrame {
 			catch (SQLIntegrityConstraintViolationException e) {
 				System.out.println(e);
 				JOptionPane.showMessageDialog(null, "Nome de usuario já cadastrado.", "ERRO", JOptionPane.ERROR_MESSAGE);
+				
 			}
 		    catch(ParseException e) {
 				JOptionPane.showMessageDialog(null, "Data inválida.", "ERRO", JOptionPane.ERROR_MESSAGE);
+				
 		    }
 			catch (SQLException | IOException e) {
-				
 				JOptionPane.showMessageDialog(null, "Não foi possivel cadastrar um novo usuário.", "ERRO", JOptionPane.ERROR_MESSAGE);
 				System.out.println(e);
 			}
@@ -230,7 +193,7 @@ public class CadastroWindow extends JFrame {
 	private void iniciarComponentes() {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 682, 615);
+		setBounds(100, 100, 480, 615);
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -249,16 +212,16 @@ public class CadastroWindow extends JFrame {
 		contentPane.setLayout(null);
 		
 		JLabel lblCadastroUsuario = new JLabel("Cadastro de usuário");
-		lblCadastroUsuario.setBounds(175, 11, 280, 32);
+		lblCadastroUsuario.setBounds(97, 11, 280, 32);
 		lblCadastroUsuario.setFont(new Font("Tahoma", Font.BOLD, 26));
 		contentPane.add(lblCadastroUsuario);
 		
 		JSeparator separator = new JSeparator();
-		separator.setBounds(26, 54, 588, 2);
+		separator.setBounds(10, 54, 445, 2);
 		contentPane.add(separator);
 		
 		painelInfoPessoais = new JPanel();
-		painelInfoPessoais.setBounds(55, 67, 601, 264);
+		painelInfoPessoais.setBounds(69, 60, 324, 264);
 		contentPane.add(painelInfoPessoais);
 		painelInfoPessoais.setLayout(null);
 		painelInfoPessoais.setBorder(BorderFactory.createTitledBorder("Informações pessoais"));
@@ -305,30 +268,8 @@ public class CadastroWindow extends JFrame {
 		grupoBotao.add(rbFeminino);
 		grupoBotao.add(rbNaoInformar);
 		
-		JPanel painelFoto = new JPanel();
-		painelFoto.setBounds(365, 24, 181, 214);
-		painelInfoPessoais.add(painelFoto);
-		painelFoto.setLayout(null);
-		painelFoto.setBorder(BorderFactory.createTitledBorder("Foto de perfil"));
-		
-		lblFotoPerfil = new JLabel("");
-		lblFotoPerfil.setBounds(25, 28, 132, 128);
-		painelFoto.add(lblFotoPerfil);
-		lblFotoPerfil.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		//lblFotoPerfil.setIcon(new ImageIcon(CadastroWindow.class.getResource("/img/9111001_folder_photo_icon.png")));
-		
-		btnAddFoto = new JButton("Adicionar foto");
-		btnAddFoto.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				carregarFoto();
-			}
-		});
-		btnAddFoto.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btnAddFoto.setBounds(35, 169, 111, 23);
-		painelFoto.add(btnAddFoto);
-		
 		JPanel painelInfoUsuario = new JPanel();
-		painelInfoUsuario.setBounds(190, 335, 324, 161);
+		painelInfoUsuario.setBounds(69, 335, 324, 168);
 		contentPane.add(painelInfoUsuario);
 		painelInfoUsuario.setLayout(null);
 		painelInfoUsuario.setBorder(BorderFactory.createTitledBorder("Informações de usuário"));
@@ -370,7 +311,7 @@ public class CadastroWindow extends JFrame {
 			}
 		});
 		btnCadastrarUsuario.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnCadastrarUsuario.setBounds(256, 498, 199, 39);
+		btnCadastrarUsuario.setBounds(129, 509, 199, 39);
 		contentPane.add(btnCadastrarUsuario);
 	}
 	
@@ -378,9 +319,11 @@ public class CadastroWindow extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					
 					CadastroWindow frame = new CadastroWindow();
 					frame.setLocationRelativeTo(null);
 					frame.setVisible(true);
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
