@@ -33,4 +33,11 @@ public class CompromissoService {
 		
 	}
 	
+	public void cadastrar(Compromisso compromisso, int idAgenda) throws SQLException, IOException {
+		
+		Connection conn = BancoDados.conectar();
+		new CompromissoDAO(conn).cadastrarCompromisso(compromisso, idAgenda);
+	}
+	
+	
 }

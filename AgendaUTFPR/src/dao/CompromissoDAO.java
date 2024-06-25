@@ -56,6 +56,7 @@ public class CompromissoDAO {
 			BancoDados.desconectar();
 		}
 	}
+	
 	public List<Compromisso> buscarCompromissos(int idAgenda) throws SQLException {
 		PreparedStatement st = null;
 		ResultSet rs = null;
@@ -75,10 +76,10 @@ public class CompromissoDAO {
 				Compromisso compromisso = new Compromisso();
 				compromisso.setTitulo(rs.getString("titulo"));
 				compromisso.setDescricao(rs.getString("descricao"));
-				compromisso.setDataInicio(rs.getDate("dataHoraInicio"));
-				compromisso.setHoraInicio(rs.getTime("dataHoraInicio"));
-				compromisso.setHoraFim(rs.getTime("dataHoraFim"));
-				compromisso.setDataFim(rs.getDate("dataHoraFim"));
+				compromisso.setDataInicio(rs.getDate("dataInicio"));
+				compromisso.setHoraInicio(rs.getString("HoraInicio"));
+				compromisso.setHoraFim(rs.getString("HoraFim"));
+				compromisso.setDataFim(rs.getDate("dataFim"));
 				compromisso.setLocal(rs.getString("local"));
 
 				listaCompromissos.add(compromisso);
@@ -93,4 +94,32 @@ public class CompromissoDAO {
 			BancoDados.desconectar();
 		}
 	}
+	
+	private static java.sql.Date converterData(java.util.Date date){
+		java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+		return sqlDate;
+	}
+	
+	public void cadastrarCompromisso(Compromisso compromisso, int idAgenda) throws SQLException {
+		
+		PreparedStatement st = null;
+		
+		try {
+			st = conn.prepareStatement("INSERT IGNORE INTO compromisso (titulo, descricao, id_agenda, dataInicio, dataFim, local, horaInicio, horaFim ) VALUES (?, ?, ?,?,?,?,?,?)");
+			st.setString(1, compromisso.getTitulo());
+			st.setString(2, compromisso.getDescricao());
+			st.setInt(3, idAgenda);
+            st.setDate(4, converterData(compromisso.getDataInicio()));
+            st.setDate(5, converterData(compromisso.getDataFim()));
+        	st.setString(6, compromisso.getLocal());
+        	st.setString(7, compromisso.getHoraInicio());
+            st.setString(8, compromisso.getHoraFim());
+			st.executeUpdate();
+			
+		} finally {
+			BancoDados.finalizarStatement(st);
+			BancoDados.desconectar();
+		}
+	}
+	
 }

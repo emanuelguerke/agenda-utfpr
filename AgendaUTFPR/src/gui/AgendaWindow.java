@@ -206,11 +206,13 @@ public class AgendaWindow extends JFrame {
 			lstAgenda.setBorder(new LineBorder(new Color(0, 0, 0)));
 			lstAgenda.addListSelectionListener(new ListSelectionListener() {
 				public void valueChanged(ListSelectionEvent e) {
+					if(e.getValueIsAdjusting()){
 					int index = lstAgenda.getSelectedIndex();
 					Object nomeEscolha = lstAgenda.getSelectedValue();
 					System.out.println(index);
 					System.out.println(nomeEscolha.toString());
 					abrirCompromissos(nomeEscolha.toString(), idUsuario);
+					}
 				}
 			});
 			

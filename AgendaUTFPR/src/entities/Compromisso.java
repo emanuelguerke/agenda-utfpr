@@ -1,5 +1,5 @@
 package entities;
-import java.sql.Date;
+import java.util.Date;
 import java.sql.Time;
 
 public class Compromisso {
@@ -7,8 +7,8 @@ public class Compromisso {
 	private String descricao;
 	private Date dataInicio;
 	private Date dataFim;
-	private Time horaInicio;
-	private Time horaFim;
+	private String horaInicio;
+	private String horaFim;
 	private String local;
 //	private String[] convidado;
 	public String getTitulo() {
@@ -35,16 +35,16 @@ public class Compromisso {
 	public void setDataFim(Date dataFim) {
 		this.dataFim = dataFim;
 	}
-	public Time getHoraInicio() {
+	public String getHoraInicio() {
 		return horaInicio;
 	}
-	public void setHoraInicio(Time horaInicio) {
+	public void setHoraInicio(String horaInicio) {
 		this.horaInicio = horaInicio;
 	}
-	public Time getHoraFim() {
+	public String getHoraFim() {
 		return horaFim;
 	}
-	public void setHoraFim(Time horaFim) {
+	public void setHoraFim(String horaFim) {
 		this.horaFim = horaFim;
 	}
 	public String getLocal() {

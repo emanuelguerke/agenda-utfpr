@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 25-Jun-2024 às 05:23
+-- Tempo de geração: 26-Jun-2024 às 00:53
 -- Versão do servidor: 10.4.32-MariaDB
 -- versão do PHP: 8.2.12
 
@@ -72,21 +72,25 @@ INSERT INTO `agenda` (`nome`, `descricao`, `id`, `id_usuario`) VALUES
 CREATE TABLE `compromisso` (
   `titulo` varchar(100) NOT NULL,
   `descricao` varchar(500) NOT NULL,
-  `dataHoraInicio` datetime NOT NULL,
-  `dataHoraFim` datetime NOT NULL,
+  `dataInicio` datetime NOT NULL,
+  `dataFim` datetime NOT NULL,
   `id` int(11) NOT NULL,
   `local` varchar(100) NOT NULL,
-  `id_agenda` int(11) NOT NULL
+  `id_agenda` int(11) NOT NULL,
+  `horaInicio` varchar(100) NOT NULL,
+  `horaFim` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Extraindo dados da tabela `compromisso`
 --
 
-INSERT INTO `compromisso` (`titulo`, `descricao`, `dataHoraInicio`, `dataHoraFim`, `id`, `local`, `id_agenda`) VALUES
-('festa na casa do joaquim', 'festa na casa do joaquim', '2024-06-24 07:13:00', '2024-07-17 11:28:00', 1, 'ponta grossa', 13),
-('aniversario da paula', 'aniversario da paula', '2024-06-25 12:26:00', '2024-06-24 15:18:16', 2, 'curitiba', 13),
-('aniversario do emanuel', 'aniversario muito bom', '2024-06-24 16:26:38', '2024-06-24 17:26:38', 3, 'casa do emanuel', 26);
+INSERT INTO `compromisso` (`titulo`, `descricao`, `dataInicio`, `dataFim`, `id`, `local`, `id_agenda`, `horaInicio`, `horaFim`) VALUES
+('Aniversario do emanuel', 'aniversario na casa do emanuel', '2024-06-26 00:00:00', '2024-06-30 00:00:00', 8, 'ponta grossa', 13, '10:11:12', '12:11:10'),
+('aniversario da maria', 'festa na casa da maria', '2024-06-16 00:00:00', '2024-06-30 00:00:00', 9, 'curitiba', 13, '15:14:13', '13:14:15'),
+('pasteladona', 'pastelada na casa do joao', '2024-06-26 00:00:00', '2024-06-30 00:00:00', 10, 'ponta grossa', 6, '12:13:14', '  :  :  '),
+('aniversario do di', 'aniversario', '2024-06-27 00:00:00', '2024-06-28 00:00:00', 11, 'londrina', 13, '12:12:12', '13:13:13'),
+('anini', 'anini nono', '2024-06-01 00:00:00', '2024-06-30 00:00:00', 12, 'carambei', 13, '01:00:00', '02:02:02');
 
 -- --------------------------------------------------------
 
@@ -182,7 +186,7 @@ ALTER TABLE `agenda`
 -- AUTO_INCREMENT de tabela `compromisso`
 --
 ALTER TABLE `compromisso`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de tabela `imagem`
