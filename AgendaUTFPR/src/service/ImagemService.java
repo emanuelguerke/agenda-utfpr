@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import dao.AgendaDAO;
 import dao.BancoDados;
 import dao.ImagemDAO;
 import entities.Imagem;
@@ -18,5 +19,13 @@ public class ImagemService {
 		
 		Connection conn = BancoDados.conectar();
 		new ImagemDAO(conn).nomeImagem(imagem, idUsuario);
+	}
+	
+	public int buscarId(String usuario) throws SQLException, IOException {
+			
+		System.out.println(usuario);
+		Connection conn = BancoDados.conectar();
+		return new ImagemDAO(conn).buscarId(usuario);
+		
 	}
 }
