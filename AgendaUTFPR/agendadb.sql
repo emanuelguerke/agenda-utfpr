@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 24-Jun-2024 às 21:31
+-- Tempo de geração: 25-Jun-2024 às 05:23
 -- Versão do servidor: 10.4.32-MariaDB
 -- versão do PHP: 8.2.12
 
@@ -56,7 +56,12 @@ INSERT INTO `agenda` (`nome`, `descricao`, `id`, `id_usuario`) VALUES
 ('wwwwwwwwww', 'wwwwwwwww', 25, 13),
 ('Aniversario', 'aninini', 26, 1),
 ('provas', 'provas da universidade', 27, 1),
-('Festas', 'festas legais', 28, 1);
+('Festas', 'festas legais', 28, 1),
+('agenda', 'agenda', 29, 13),
+('Festas', 'festas legais', 30, 16),
+('guerke', '123', 31, 13),
+('utena festas ', 'utena123', 32, 16),
+('sunraku festas', '123', 33, 21);
 
 -- --------------------------------------------------------
 
@@ -86,6 +91,18 @@ INSERT INTO `compromisso` (`titulo`, `descricao`, `dataHoraInicio`, `dataHoraFim
 -- --------------------------------------------------------
 
 --
+-- Estrutura da tabela `imagem`
+--
+
+CREATE TABLE `imagem` (
+  `id` int(11) NOT NULL,
+  `nome` varchar(100) NOT NULL,
+  `id_usuario` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura da tabela `usuario`
 --
 
@@ -110,7 +127,14 @@ INSERT INTO `usuario` (`nome_completo`, `data_nascimento`, `genero`, `email`, `n
 ('sdsds', '1222-01-12', 'Não informado', 'sddsds@gmail.com', 'sdsds', '23232', 7),
 ('sddsds', '2112-01-21', 'Não informado', '212121', '323223', '323223', 8),
 ('ssdsd', '2012-01-12', 'Não informado', 'sdsdds', 'Emanuel4', '323232', 11),
-('guerke', '2012-01-12', 'Masculino', 'emanuel@ddsds.com', 'guerke', '1234', 13);
+('guerke', '2012-01-12', 'Masculino', 'emanuel@ddsds.com', 'guerke', '1234', 13),
+('Utena', '2022-12-10', 'Feminino', 'utena@gmail.com', 'utena', '123', 16),
+('eu123', '2022-12-12', 'Masculino', 'eu123@gmail.com', 'eu123', '123', 17),
+('utena12', '2022-12-12', 'Feminino', 'utena12@gmail.com', 'utena12', '123', 18),
+('Testando', '2022-12-12', 'Masculino', 'utenna@gmail.com', 'utenaa', '123', 19),
+('eee', '1222-12-12', 'Masculino', 'eeeee@gmail.com', 'eeee', '123', 20),
+('sunraku', '2020-12-12', 'Masculino', 'sunraku@gmail.com', 'sunraku', '123', 21),
+('sunraku123', '2022-12-12', 'Masculino', 'sunraku1234@gmail.com', 'sunraku1234', '1234', 22);
 
 --
 -- Índices para tabelas despejadas
@@ -131,6 +155,13 @@ ALTER TABLE `compromisso`
   ADD KEY `fk_compromisso_agenda` (`id_agenda`);
 
 --
+-- Índices para tabela `imagem`
+--
+ALTER TABLE `imagem`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_imagem_usuario` (`id_usuario`);
+
+--
 -- Índices para tabela `usuario`
 --
 ALTER TABLE `usuario`
@@ -145,7 +176,7 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de tabela `agenda`
 --
 ALTER TABLE `agenda`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT de tabela `compromisso`
@@ -154,10 +185,16 @@ ALTER TABLE `compromisso`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT de tabela `imagem`
+--
+ALTER TABLE `imagem`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de tabela `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- Restrições para despejos de tabelas
@@ -174,6 +211,12 @@ ALTER TABLE `agenda`
 --
 ALTER TABLE `compromisso`
   ADD CONSTRAINT `fk_compromisso_agenda` FOREIGN KEY (`id_agenda`) REFERENCES `agenda` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Limitadores para a tabela `imagem`
+--
+ALTER TABLE `imagem`
+  ADD CONSTRAINT `fk_imagem_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

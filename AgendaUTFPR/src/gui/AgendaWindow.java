@@ -85,7 +85,7 @@ public class AgendaWindow extends JFrame {
 		
 		this.txtNome.setText("");
 		this.txtDescricao.setText("");
-		this.cbAgenda.setSelectedIndex(0);
+		//this.cbAgenda.setSelectedIndex(0);
 	}
 	
 	private void cadastrarAgenda() {
@@ -104,7 +104,7 @@ public class AgendaWindow extends JFrame {
 				this.cbAgenda.removeAllItems();
 			
 			}
-			catch (SQLException | IOException e) {
+			catch (SQLException | IOException | NumberFormatException | NullPointerException e) {
 				
 				JOptionPane.showMessageDialog(null, "Não foi possivel cadastrar uma nova agenda.", "ERRO", JOptionPane.ERROR_MESSAGE);
 				System.out.println(e);
@@ -273,6 +273,7 @@ public class AgendaWindow extends JFrame {
 			JButton btnExcluirAgenda = new JButton("Excluir Agenda");
 			btnExcluirAgenda.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					if(cbAgenda.getSelectedItem() != null) //verifica se o combobox está vazio antes de deletar
 					excluirAgenda(cbAgenda.getSelectedItem().toString());
 				}
 			});
