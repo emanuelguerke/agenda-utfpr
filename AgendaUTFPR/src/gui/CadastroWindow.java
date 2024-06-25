@@ -35,7 +35,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.MaskFormatter;
 
+import entities.Imagem;
 import entities.Usuario;
+import service.ImagemService;
 import service.UsuarioService;
 
 public class CadastroWindow extends JFrame {
@@ -61,6 +63,8 @@ public class CadastroWindow extends JFrame {
 	private LoginWindow loginWindow;
 	private JLabel lblFotoPerfil;
 	private JButton btnAddFoto;
+	
+	private ImagemService imagemService;
 
 	public CadastroWindow() {
 		
@@ -92,6 +96,11 @@ public class CadastroWindow extends JFrame {
 				lblFotoPerfil.setIcon(new ImageIcon(fotoPerfil));
 				lblFotoPerfil.updateUI();
 				
+				Imagem imagem = new Imagem();
+				this.imagemService = new ImagemService();
+				
+				imagem.setNome(foto.getSelectedFile().getAbsolutePath());
+				
 				
 			} catch (Exception e) {
 				
@@ -105,7 +114,7 @@ public class CadastroWindow extends JFrame {
 		LoginWindow voltar = new LoginWindow();
 		voltar.setVisible(true);
 		
-		this.dispose();
+		this.setVisible(false);
 	}
 	
 	private void limparComponentes() {
@@ -133,31 +142,42 @@ public class CadastroWindow extends JFrame {
 					return "Não informado";
 				}
 	}
+	
 	public boolean validarNomeUsuario() {
+		
 		try {
+			
 			if(this.usuarioService.validarNomeUsuario(txtNomeUsuario.getText())) {
 				return true;
+				
 			}else {
 				return false;
 			}
+			
 		} catch (SQLException | IOException | NumberFormatException e) {
+			
 			System.out.println(e);
 			return false;
 		}
 	}
 	
 	public static boolean validarEmail(String email) {
+		
 	    final Pattern EMAIL_REGEX = Pattern.compile("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", Pattern.CASE_INSENSITIVE);
 	    return EMAIL_REGEX.matcher(email).matches();
 	}
+	
 	public boolean validarCampos() {
-		if( validarEmail(txtEmail.getText()) && txtNomeCompleto.getText() != null && !txtNomeCompleto.getText().isEmpty() && txtNomeUsuario.getText() != null && !txtNomeUsuario.getText().isEmpty() && fieldSenha.getText() != null && !fieldSenha.getText().isEmpty()) {
+		
+		if ( validarEmail(txtEmail.getText()) && txtNomeCompleto.getText() != null && !txtNomeCompleto.getText().isEmpty() && txtNomeUsuario.getText() != null && !txtNomeUsuario.getText().isEmpty() && fieldSenha.getText() != null && !fieldSenha.getText().isEmpty()) {
 			return true;
-		}else {
+			
+		} else {
 			return false;
 		}
 		
 	}
+	
 	private void criarMascaraData() {
 		
 		try {
@@ -295,7 +315,7 @@ public class CadastroWindow extends JFrame {
 		lblFotoPerfil.setBounds(25, 28, 132, 128);
 		painelFoto.add(lblFotoPerfil);
 		lblFotoPerfil.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		lblFotoPerfil.setIcon(new ImageIcon(CadastroWindow.class.getResource("/img/9111001_folder_photo_icon.png")));
+		//lblFotoPerfil.setIcon(new ImageIcon(CadastroWindow.class.getResource("/img/9111001_folder_photo_icon.png")));
 		
 		btnAddFoto = new JButton("Adicionar foto");
 		btnAddFoto.addActionListener(new ActionListener() {
