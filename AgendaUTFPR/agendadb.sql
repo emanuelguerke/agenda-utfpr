@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 26-Jun-2024 às 04:28
+-- Tempo de geração: 27-Jun-2024 às 00:02
 -- Versão do servidor: 10.4.32-MariaDB
 -- versão do PHP: 8.2.12
 
@@ -61,7 +61,9 @@ INSERT INTO `agenda` (`nome`, `descricao`, `id`, `id_usuario`) VALUES
 ('sunraku festas', '123', 33, 21),
 ('kkkkk', 'kkkkkk', 36, 13),
 ('Aniversarios', 'aniversarios do sunraku', 38, 22),
-('Bailes', 'agenda para bailes', 39, 22);
+('Bailes', 'agenda para bailes', 39, 22),
+('Aniversarios', 'aniversarios que vou ', 40, 23),
+('Festas', 'festao', 41, 23);
 
 -- --------------------------------------------------------
 
@@ -87,11 +89,13 @@ CREATE TABLE `compromisso` (
 
 INSERT INTO `compromisso` (`titulo`, `descricao`, `dataInicio`, `dataFim`, `id`, `local`, `id_agenda`, `horaInicio`, `horaFim`) VALUES
 ('aniversario da maria', 'festa na casa da maria', '2024-06-16 00:00:00', '2024-06-30 00:00:00', 9, 'curitiba', 13, '15:14:13', '13:14:15'),
-('aniversario do di', 'aniversario', '2024-06-27 00:00:00', '2024-06-28 00:00:00', 11, 'londrina', 13, '12:12:12', '13:13:13'),
 ('Aniversario do emanuel', 'niver do emanuel', '2024-06-26 00:00:00', '2024-06-27 00:00:00', 15, 'arapoti', 13, '12:12:12', '13:13:13'),
 ('aniversario do arthur', 'aniversario', '2024-06-26 00:00:00', '2024-06-27 00:00:00', 17, 'jaguariaiva', 13, '10:10:10', '10:10:23'),
 ('bailao123', 'bailao', '2024-06-28 00:00:00', '2024-06-29 00:00:00', 18, 'pirai', 39, '12:12:12', '11:11:11'),
-('baile15', '1515', '2024-06-28 00:00:00', '2024-06-28 00:00:00', 19, 'Itararé', 39, '05:05:05', '06:06:06');
+('baile15', '1515', '2024-06-28 00:00:00', '2024-06-28 00:00:00', 19, 'Itararé', 39, '05:05:05', '06:06:06'),
+('aniversario da megumin', 'muita festa', '2024-06-28 00:00:00', '2024-06-29 00:00:00', 20, 'pirai', 40, '12:13:14', '15:16:17'),
+('ddd', 'ddddddd', '2024-06-14 00:00:00', '2024-06-29 00:00:00', 21, 'ddddddddddd', 40, '12:12:11', '11:11:11'),
+('Aniversarioooooooo', 'aniversarios', '2024-06-27 00:00:00', '2024-06-30 00:00:00', 22, 'carambei', 13, '10:10:12', '12:12:12');
 
 -- --------------------------------------------------------
 
@@ -118,6 +122,14 @@ CREATE TABLE `imagem` (
   `nome` varchar(100) NOT NULL,
   `id_usuario` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Extraindo dados da tabela `imagem`
+--
+
+INSERT INTO `imagem` (`id`, `nome`, `id_usuario`) VALUES
+(10, 'C:\\Users\\emanu\\Desktop\\emoji\\utenateste6.png', 13),
+(11, 'C:\\Users\\emanu\\Documents\\Screenshot_1187.png', 23);
 
 -- --------------------------------------------------------
 
@@ -153,7 +165,8 @@ INSERT INTO `usuario` (`nome_completo`, `data_nascimento`, `genero`, `email`, `n
 ('Testando', '2022-12-12', 'Masculino', 'utenna@gmail.com', 'utenaa', '123', 19),
 ('eee', '1222-12-12', 'Masculino', 'eeeee@gmail.com', 'eeee', '123', 20),
 ('sunraku', '2020-12-12', 'Masculino', 'sunraku@gmail.com', 'sunraku', '123', 21),
-('sunraku123', '2022-12-12', 'Masculino', 'sunraku1234@gmail.com', 'sunraku1234', '1234', 22);
+('sunraku123', '2022-12-12', 'Masculino', 'sunraku1234@gmail.com', 'sunraku1234', '1234', 22),
+('megumin', '2010-10-10', 'Feminino', 'megumin@gmail.com', 'megumin', '1234', 23);
 
 --
 -- Índices para tabelas despejadas
@@ -187,7 +200,7 @@ ALTER TABLE `convite`
 --
 ALTER TABLE `imagem`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_imagem_usuario` (`id_usuario`);
+  ADD UNIQUE KEY `id_usuario` (`id_usuario`);
 
 --
 -- Índices para tabela `usuario`
@@ -204,13 +217,13 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de tabela `agenda`
 --
 ALTER TABLE `agenda`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT de tabela `compromisso`
 --
 ALTER TABLE `compromisso`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT de tabela `convite`
@@ -222,13 +235,13 @@ ALTER TABLE `convite`
 -- AUTO_INCREMENT de tabela `imagem`
 --
 ALTER TABLE `imagem`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de tabela `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- Restrições para despejos de tabelas

@@ -26,7 +26,7 @@ public class ImagemDAO {
 		
 		try {
 			
-			st = conn.prepareStatement("INSERT IGNORE INTO imagem (nome, id_usuario) VALUES (?, ?)");
+			st = conn.prepareStatement("REPLACE INTO imagem (nome, id_usuario) VALUES (?, ?)");
 			st.setString(1, imagem.getNome());
 			st.setInt(2, idUsuario);
 			
