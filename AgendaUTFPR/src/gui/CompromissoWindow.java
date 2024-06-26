@@ -39,6 +39,10 @@ import java.awt.event.ActionEvent;
 import javax.swing.JFormattedTextField;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JMenu;
+import java.awt.Font;
 
 public class CompromissoWindow extends JFrame {
 
@@ -72,6 +76,10 @@ public class CompromissoWindow extends JFrame {
 	private JPanel panel_3;
 	private JButton btnExportar;
 	private JButton btnImportar;
+	private AgendaWindow agendaWindow;
+	private JMenuBar menuBar;
+	private JMenuItem mntmVoltar;
+	private String nome;
 
 	/**
 	 * Launch the application.
@@ -82,6 +90,19 @@ public class CompromissoWindow extends JFrame {
 	public void iniciarComponentes(String nomeAgenda, String descricaoAgenda) {
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			setBounds(100, 100, 686, 832);
+			
+			menuBar = new JMenuBar();
+			setJMenuBar(menuBar);
+			
+			mntmVoltar = new JMenuItem("Voltar ");
+			mntmVoltar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					voltarAgenda();
+				}
+			});
+			mntmVoltar.setFont(new Font("Segoe UI", Font.BOLD, 12));
+			menuBar.add(mntmVoltar);
 			contentPane = new JPanel();
 			contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 	
@@ -215,7 +236,7 @@ public class CompromissoWindow extends JFrame {
 			
 			JPanel panel_2 = new JPanel();
 			panel_2.setBorder(new LineBorder(new Color(0, 0, 0)));
-			panel_2.setBounds(0, 202, 660, 101);
+			panel_2.setBounds(0, 207, 660, 101);
 			contentPane.add(panel_2);
 			panel_2.setLayout(null);
 			
@@ -270,7 +291,15 @@ public class CompromissoWindow extends JFrame {
 			panel_3.add(btnImportar);
 	}
 	
-	public boolean validarCampos() {
+	private void voltarAgenda() {
+		
+		AgendaWindow agendaWindow = new AgendaWindow(nome);
+		agendaWindow.setVisible(true);
+		
+		this.dispose();
+	}
+	
+	private boolean validarCampos() {
 		
 		if ( txtTitulo.getText() != null && !txtTitulo.getText().isEmpty() && txtDescricao.getText() != null && !txtDescricao.getText().isEmpty() && txtHoraInicio.getText() != null && !txtHoraInicio.getText().isEmpty() && txtHoraFim.getText() != null && !txtHoraFim.getText().isEmpty() && dateChooserFim.getDate()!= null && dateChooserInicio.getDate() != null ) {
 			return true;
@@ -281,7 +310,8 @@ public class CompromissoWindow extends JFrame {
 		
 	}
 	
-	public void exportarCSV() {
+	private void exportarCSV() {
+		
 		JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Selecione o local para salvar");
         int userSelection = fileChooser.showSaveDialog(this); 
@@ -341,28 +371,30 @@ public class CompromissoWindow extends JFrame {
 		}
 	}
 	
-	public String buscarDescricaoAgenda(String nomeAgenda, int idUsuario) {
+	private String buscarDescricaoAgenda(String nomeAgenda, int idUsuario) {
 		try {
 			
 			return compromissoService.buscarDescricaoAgenda(nomeAgenda, idUsuario);
 			
-		}catch(SQLException | IOException e) {
+		} catch (SQLException | IOException e) {
 			JOptionPane.showMessageDialog(null, "Erro ao carregar agendas","agendas", JOptionPane.ERROR_MESSAGE);
 			System.out.println(e);
 		}
+		
 		return nomeAgenda;
 			
 	}
 	
-	public int buscarIdAgenda(String nomeAgenda, int idUsuario) {
+	private int buscarIdAgenda(String nomeAgenda, int idUsuario) {
 		try {
 			
 			return compromissoService.buscarIdAgenda(nomeAgenda, idUsuario);
 			
-		}catch(SQLException | IOException e) {
+		} catch(SQLException | IOException e) {
 			JOptionPane.showMessageDialog(null, "Erro ao carregar agenda","Buscar ids", JOptionPane.ERROR_MESSAGE);
 			System.out.println(e);
 		}
+		
 		return 0; 
 			
 	}
@@ -425,6 +457,7 @@ public class CompromissoWindow extends JFrame {
 		}
 		
 	}
+	
 	private void cadastrarCompromisso() {
 		
 		try {
@@ -463,8 +496,7 @@ public class CompromissoWindow extends JFrame {
 				this.cbCompromisso.removeAllItems();
 				
 			
-			}
-			catch ( NumberFormatException | NullPointerException | ParseException | SQLException | IOException e) {
+			} catch ( NumberFormatException | NullPointerException | ParseException | SQLException | IOException e) {
 				
 				JOptionPane.showMessageDialog(null, "Não foi possivel cadastrar uma novo compromisso.", "ERRO", JOptionPane.ERROR_MESSAGE);
 				System.out.println(e);
@@ -479,14 +511,17 @@ public class CompromissoWindow extends JFrame {
 		System.exit(0);
 	}
 	
-	public CompromissoWindow(String nomeAgenda, int idUsuario) {
+	public CompromissoWindow(String nome, String nomeAgenda, int idUsuario) {
 			criarMascaraInicio();
 			criarMascaraFim();
 			this.compromissoService = new CompromissoService();
 			this.agendaNome = nomeAgenda;
 			this.idAgenda = buscarIdAgenda(nomeAgenda, idUsuario);
+			this.nome = nome;
 			iniciarComponentes(nomeAgenda,buscarDescricaoAgenda(nomeAgenda,idUsuario));
 			buscarCompromissos();
+			
+			 
 			
 			
 			
