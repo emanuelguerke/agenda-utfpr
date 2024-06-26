@@ -204,8 +204,8 @@ public class AgendaWindow extends JFrame {
 	
 	public void iniciarComponentes() {
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			setBounds(100, 100, 557, 603);
-			
+			setBounds(100, 100, 562, 642);
+			setLocationRelativeTo(null);
 			JMenuBar menuBar = new JMenuBar();
 			setJMenuBar(menuBar);
 			
@@ -353,6 +353,7 @@ public class AgendaWindow extends JFrame {
 	}
 
 	public AgendaWindow(String nomeUsuario) {
+		setTitle("Agenda");
 		
 		this.nome = nomeUsuario;
 		this.agendaService = new AgendaService();

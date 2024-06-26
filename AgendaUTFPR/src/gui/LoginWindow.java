@@ -38,6 +38,7 @@ public class LoginWindow extends JFrame {
 	private Imagem imagem;
 
 	public LoginWindow() {
+		setTitle("Login");
 		
 		this.iniciarComponentes();
 		this.usuarioService = new UsuarioService();

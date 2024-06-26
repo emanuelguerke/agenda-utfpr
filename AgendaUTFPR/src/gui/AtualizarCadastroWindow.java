@@ -52,6 +52,7 @@ public class AtualizarCadastroWindow extends JFrame {
 	private ButtonGroup grupoBotao;
 	
 	public AtualizarCadastroWindow(String nomeUsuario) {
+		setTitle("Atualizar dados");
 		
 		this.nome = nomeUsuario;
 		this.criarMascaraData();

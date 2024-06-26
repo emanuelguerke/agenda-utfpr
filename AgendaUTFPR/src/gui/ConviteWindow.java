@@ -34,6 +34,7 @@ public class ConviteWindow extends JFrame {
 	
 
 	public ConviteWindow() {
+		setTitle("Convite");
 		iniciarComponentes();
 	}
 	

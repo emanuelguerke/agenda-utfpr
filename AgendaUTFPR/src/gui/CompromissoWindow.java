@@ -89,7 +89,7 @@ public class CompromissoWindow extends JFrame {
 	 */
 	public void iniciarComponentes(String nomeAgenda, String descricaoAgenda) {
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			setBounds(100, 100, 686, 832);
+			setBounds(100, 100, 694, 881);
 			
 			menuBar = new JMenuBar();
 			setJMenuBar(menuBar);
@@ -287,7 +287,7 @@ public class CompromissoWindow extends JFrame {
 			panel_3.add(btnExportar);
 			
 			btnImportar = new JButton("Importar");
-			btnImportar.setBounds(257, 41, 133, 23);
+			btnImportar.setBounds(257, 45, 133, 23);
 			panel_3.add(btnImportar);
 	}
 	
@@ -512,6 +512,7 @@ public class CompromissoWindow extends JFrame {
 	}
 	
 	public CompromissoWindow(String nome, String nomeAgenda, int idUsuario) {
+		setTitle("Compromisso");
 			criarMascaraInicio();
 			criarMascaraFim();
 			this.compromissoService = new CompromissoService();

@@ -63,6 +63,7 @@ public class CadastroWindow extends JFrame {
 	private LoginWindow loginWindow;
 
 	public CadastroWindow() {
+		setTitle("Cadastro");
 		
 		this.criarMascaraData();
 		this.iniciarComponentes();
@@ -193,7 +194,7 @@ public class CadastroWindow extends JFrame {
 	private void iniciarComponentes() {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 480, 615);
+		setBounds(100, 100, 480, 640);
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);

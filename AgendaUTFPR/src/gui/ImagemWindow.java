@@ -39,6 +39,7 @@ public class ImagemWindow extends JFrame {
 	private JLabel lblFotoPerfil;
 
 	public ImagemWindow(String nomeUsuario) {
+		setTitle("Foto de perfil");
 		this.nome= nomeUsuario;
 		this.iniciarComponentes();
 	}
