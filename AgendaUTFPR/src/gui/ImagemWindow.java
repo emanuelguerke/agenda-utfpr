@@ -42,6 +42,7 @@ public class ImagemWindow extends JFrame {
 		setTitle("Foto de perfil");
 		this.nome= nomeUsuario;
 		this.iniciarComponentes();
+		this.adicionarFotoPerfil();
 	}
 	
 	public void fecharFoto() {
@@ -85,6 +86,27 @@ public class ImagemWindow extends JFrame {
 			
 			e.printStackTrace();
 		}
+	}
+	
+	private String buscarFoto(int idUsuario) {
+		
+		try {
+			idUsuario = buscarId(nome);
+			this.imagemService = new ImagemService();
+			
+			return imagemService.buscarFoto(idUsuario);
+			
+		}catch (SQLException | IOException e) {
+			
+			JOptionPane.showMessageDialog(null, "Erro ao carregar usuario","Buscar id's", JOptionPane.ERROR_MESSAGE);
+			System.out.println(e);
+		}
+		return null;
+	}
+	
+	private void adicionarFotoPerfil() {
+		lblFotoPerfil.setIcon(new ImageIcon(buscarFoto(idUsuario)));
+		lblFotoPerfil.updateUI();
 	}
 	
 	private void carregarFoto() {
@@ -150,6 +172,7 @@ public class ImagemWindow extends JFrame {
 				
 				carregarFoto();
 				nomeImagem();
+				
 				fecharFoto();
 				
 				

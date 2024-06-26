@@ -316,19 +316,4 @@ public class CadastroWindow extends JFrame {
 		contentPane.add(btnCadastrarUsuario);
 	}
 	
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					
-					CadastroWindow frame = new CadastroWindow();
-					frame.setLocationRelativeTo(null);
-					frame.setVisible(true);
-					
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 }

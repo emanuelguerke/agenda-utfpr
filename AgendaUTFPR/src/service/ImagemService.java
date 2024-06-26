@@ -28,4 +28,10 @@ public class ImagemService {
 		return new ImagemDAO(conn).buscarId(usuario);
 		
 	}
+	public String buscarFoto(int Idusuario) throws SQLException, IOException {
+		
+		Connection conn = BancoDados.conectar();
+		return new ImagemDAO(conn).buscarFoto(Idusuario);
+		
+	}
 }

@@ -62,5 +62,29 @@ public class ImagemDAO {
 			BancoDados.desconectar();
 		}
 	}
+	public String buscarFoto(int idUsuario) throws SQLException{
+		
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+			
+				st = conn.prepareStatement("SELECT nome FROM imagem WHERE ? = id_usuario");
+				st.setInt(1, idUsuario);
+				rs = st.executeQuery();
+			if(rs.next()) {
+				
+				return rs.getString("nome");
+			}else {
+				return "semimagem";
+			}
+			
+
+	} finally {
+		
+		BancoDados.finalizarStatement(st);
+		BancoDados.finalizarResultSet(rs);
+		BancoDados.desconectar();
+	}
+}
 	
 }
