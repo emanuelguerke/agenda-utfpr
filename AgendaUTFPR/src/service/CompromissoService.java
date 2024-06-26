@@ -26,10 +26,10 @@ public class CompromissoService {
 		return new CompromissoDAO(conn).buscarCompromissos(idAgenda);
 	}
 	
-	public int buscarIdAgenda(String nomeAgenda) throws SQLException, IOException {
+	public int buscarIdAgenda(String nomeAgenda, int idUsuario) throws SQLException, IOException {
 		
 		Connection conn = BancoDados.conectar();
-		return new CompromissoDAO(conn).buscarIdAgenda(nomeAgenda);
+		return new CompromissoDAO(conn).buscarIdAgenda(nomeAgenda,idUsuario);
 		
 	}
 	

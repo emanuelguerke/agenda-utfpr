@@ -37,17 +37,17 @@ public class CompromissoDAO {
 		}
 	}
 	
-	public int buscarIdAgenda(String nomeAgenda) throws SQLException{
+	public int buscarIdAgenda(String nomeAgenda, int idUsuario) throws SQLException{
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
-			st = conn.prepareStatement("SELECT id FROM agenda WHERE ? = nome");
+			st = conn.prepareStatement("SELECT id FROM agenda WHERE ? = nome AND id_usuario = ?");
 			st.setString(1, nomeAgenda);
+			st.setInt(2, idUsuario);
 			rs = st.executeQuery();
 			rs.next();
 			
 				id_agenda = rs.getInt("id");
-	//			System.out.println("metodo buscar id agendas "+id_agenda);
 				return id_agenda;
 
 		}

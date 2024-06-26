@@ -354,10 +354,10 @@ public class CompromissoWindow extends JFrame {
 			
 	}
 	
-	public int buscarIdAgenda(String nomeAgenda) {
+	public int buscarIdAgenda(String nomeAgenda, int idUsuario) {
 		try {
 			
-			return compromissoService.buscarIdAgenda(nomeAgenda);
+			return compromissoService.buscarIdAgenda(nomeAgenda, idUsuario);
 			
 		}catch(SQLException | IOException e) {
 			JOptionPane.showMessageDialog(null, "Erro ao carregar agenda","Buscar ids", JOptionPane.ERROR_MESSAGE);
@@ -408,7 +408,7 @@ public class CompromissoWindow extends JFrame {
 	private void excluirCompromisso(String nomeCompromisso) {
 		
 		try {
-			idAgenda = buscarIdAgenda(agendaNome);
+		//	idAgenda = buscarIdAgenda(agendaNome, idUsuario);
 		
 			Compromisso compromisso = new Compromisso();
 			this.compromissoService = new CompromissoService();
@@ -428,7 +428,7 @@ public class CompromissoWindow extends JFrame {
 	private void cadastrarCompromisso() {
 		
 		try {
-				idAgenda = buscarIdAgenda(agendaNome);
+		//		idAgenda = buscarIdAgenda(agendaNome);
 				Compromisso compromisso = new Compromisso();
 				this.compromissoService = new CompromissoService();
 				
@@ -484,7 +484,7 @@ public class CompromissoWindow extends JFrame {
 			criarMascaraFim();
 			this.compromissoService = new CompromissoService();
 			this.agendaNome = nomeAgenda;
-			this.idAgenda = buscarIdAgenda(nomeAgenda);
+			this.idAgenda = buscarIdAgenda(nomeAgenda, idUsuario);
 			iniciarComponentes(nomeAgenda,buscarDescricaoAgenda(nomeAgenda,idUsuario));
 			buscarCompromissos();
 			
