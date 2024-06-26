@@ -52,18 +52,19 @@ public class LoginWindow extends JFrame {
 		this.setVisible(false);
 	}
 	
-	private void entrarFotoPerfil() {
-		
-		ImagemWindow janelaFoto = new ImagemWindow();
-		janelaFoto.setVisible(true);
-		
-		this.setVisible(false);
-	}
 	
 	private void abrirAgenda(String nomeUsuario) {
 		
 		AgendaWindow agendaWindow = new AgendaWindow(nomeUsuario);
 		agendaWindow.setVisible(true);
+		
+		this.setVisible(false);
+		
+	}
+	private void abrirImagem(String nomeUsuario) {
+		
+		ImagemWindow imagemWindow = new ImagemWindow(nomeUsuario);
+		imagemWindow.setVisible(true);
 		
 		this.setVisible(false);
 		
@@ -132,31 +133,9 @@ public class LoginWindow extends JFrame {
 				if (validarCampos() && validarSenhaUsuario()) {
 					
 					JOptionPane.showMessageDialog(btnEntrar, "Login realizado!", "Aviso", JOptionPane.WARNING_MESSAGE);
+					abrirImagem(txtNomeUsuario.getText());
 					abrirAgenda(txtNomeUsuario.getText()); 
 					
-					imagem = new Imagem();
-					System.out.println(imagem.getNome());
-					
-					if (imagem.getNome().isEmpty()) {
-						
-						String[] options = {"Sim", "Não","Cancelar"};
-						
-						int option = JOptionPane.showOptionDialog(null, "Deseja adicionar uma foto de perfil ?", "Foto de perfil",
-																	JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
-						
-						if (option == 0) {
-							entrarFotoPerfil();
-								
-						} else if (option == 1) {
-							JOptionPane.showMessageDialog(null, "Seu perfil ficara sem uma foto", "Informação", JOptionPane.INFORMATION_MESSAGE);
-								
-						} else if (option == 2) {
-							System.out.println("Nenhuma opção foi selecionada!");
-						}
-					}
-						
-				} else {
-					JOptionPane.showMessageDialog(btnEntrar, "Usuario ou senha incorretas/inválidas", "Aviso", JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		});
