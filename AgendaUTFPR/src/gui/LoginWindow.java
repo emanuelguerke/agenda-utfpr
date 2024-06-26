@@ -24,6 +24,7 @@ import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import javax.swing.JPasswordField;
+import entities.Imagem;
 
 public class LoginWindow extends JFrame {
 
@@ -34,9 +35,10 @@ public class LoginWindow extends JFrame {
 	private UsuarioService usuarioService;
 	private CadastroWindow usuarioWindow;
 	private AgendaWindow agendaWindow;
-	
+	private Imagem imagem;
 
 	public LoginWindow() {
+		
 		this.iniciarComponentes();
 		this.usuarioService = new UsuarioService();
 		
@@ -48,8 +50,16 @@ public class LoginWindow extends JFrame {
 		janelaUsuario.setVisible(true);
 		
 		this.setVisible(false);
-		
 	}
+	
+	private void entrarFotoPerfil() {
+		
+		ImagemWindow janelaFoto = new ImagemWindow();
+		janelaFoto.setVisible(true);
+		
+		this.setVisible(false);
+	}
+	
 	private void abrirAgenda(String nomeUsuario) {
 		
 		AgendaWindow agendaWindow = new AgendaWindow(nomeUsuario);
@@ -124,6 +134,27 @@ public class LoginWindow extends JFrame {
 					JOptionPane.showMessageDialog(btnEntrar, "Login realizado!", "Aviso", JOptionPane.WARNING_MESSAGE);
 					abrirAgenda(txtNomeUsuario.getText()); 
 					
+					imagem = new Imagem();
+					System.out.println(imagem.getNome());
+					
+					if (imagem.getNome().isEmpty()) {
+						
+						String[] options = {"Sim", "Não","Cancelar"};
+						
+						int option = JOptionPane.showOptionDialog(null, "Deseja adicionar uma foto de perfil ?", "Foto de perfil",
+																	JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
+						
+						if (option == 0) {
+							entrarFotoPerfil();
+								
+						} else if (option == 1) {
+							JOptionPane.showMessageDialog(null, "Seu perfil ficara sem uma foto", "Informação", JOptionPane.INFORMATION_MESSAGE);
+								
+						} else if (option == 2) {
+							System.out.println("Nenhuma opção foi selecionada!");
+						}
+					}
+						
 				} else {
 					JOptionPane.showMessageDialog(btnEntrar, "Usuario ou senha incorretas/inválidas", "Aviso", JOptionPane.WARNING_MESSAGE);
 				}
