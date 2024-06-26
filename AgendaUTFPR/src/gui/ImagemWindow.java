@@ -43,6 +43,10 @@ public class ImagemWindow extends JFrame {
 		this.iniciarComponentes();
 	}
 	
+	public void fecharFoto() {
+		this.dispose();
+	}
+	
 	public int buscarId(String nome) {
 		
 		try {
@@ -145,6 +149,9 @@ public class ImagemWindow extends JFrame {
 				
 				carregarFoto();
 				nomeImagem();
+				fecharFoto();
+				
+				
 			}
 		});
 		btnAddFoto.setFont(new Font("Tahoma", Font.BOLD, 12));
