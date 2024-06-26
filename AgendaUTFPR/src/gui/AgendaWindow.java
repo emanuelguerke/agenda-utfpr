@@ -34,6 +34,10 @@ import javax.swing.border.LineBorder;
 import java.awt.Color;
 import javax.swing.ListSelectionModel;
 import javax.swing.JComboBox;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import java.awt.Font;
 
 public class AgendaWindow extends JFrame {
 
@@ -72,9 +76,10 @@ public class AgendaWindow extends JFrame {
 		this.setVisible(false);
 		
 	}
-	private void abrirCompromissos(String nomeAgenda, int idUsuario) {
+	
+	private void abrirCompromissos(String nome, String nomeAgenda, int idUsuario) {
 		
-		CompromissoWindow compromissoWindow = new CompromissoWindow(nomeAgenda, idUsuario);
+		CompromissoWindow compromissoWindow = new CompromissoWindow(nome, nomeAgenda, idUsuario);
 		compromissoWindow.setVisible(true);
 		
 		this.setVisible(false);
@@ -124,7 +129,7 @@ public class AgendaWindow extends JFrame {
 		
 	}
 	
-	private void buscarAgendas() {
+	void buscarAgendas() {
 		
 		try {
 			idUsuario = buscarId(nome);
@@ -143,6 +148,7 @@ public class AgendaWindow extends JFrame {
 		}
 		
 	}
+	
 	public int buscarId(String nome) {
 		try {
 			return agendaService.buscarId(nome);
@@ -154,7 +160,9 @@ public class AgendaWindow extends JFrame {
 		return idUsuario;
 			
 	}
+	
 	public int buscarIdAgenda(String nome) {
+		
 		try {
 			return agendaService.buscarId(nome);
 			
@@ -169,6 +177,7 @@ public class AgendaWindow extends JFrame {
 	private void excluirAgenda(String nomeAgenda) {
 		
 		try {
+			
 			idUsuario = buscarId(nome);
 			Agenda agenda = new Agenda();
 			this.agendaService = new AgendaService();
@@ -185,9 +194,42 @@ public class AgendaWindow extends JFrame {
 		
 	}
 	
+	private void sairAgenda() {
+		
+		LoginWindow sairAgenda = new LoginWindow();
+		sairAgenda.setVisible(true);
+		
+		this.setVisible(false);
+	}
+	
 	public void iniciarComponentes() {
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			setBounds(100, 100, 557, 603);
+			
+			JMenuBar menuBar = new JMenuBar();
+			setJMenuBar(menuBar);
+			
+			JMenu mnOpcoes = new JMenu("Opções ");
+			mnOpcoes.setForeground(new Color(0, 0, 0));
+			mnOpcoes.setFont(new Font("Segoe UI", Font.BOLD, 12));
+			menuBar.add(mnOpcoes);
+			
+			JMenuItem mntmPerfil = new JMenuItem("Visualizar perfil");
+			mntmPerfil.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+				}
+			});
+			mntmPerfil.setBackground(new Color(255, 255, 255));
+			mnOpcoes.add(mntmPerfil);
+			
+			JMenuItem mntmLogOut = new JMenuItem("Sair de sua conta ");
+			mntmLogOut.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					sairAgenda();
+				}
+			});
+			mnOpcoes.add(mntmLogOut);
 			contentPane = new JPanel();
 			contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 	
@@ -217,7 +259,7 @@ public class AgendaWindow extends JFrame {
 					Object nomeEscolha = lstAgenda.getSelectedValue();
 				//	System.out.println(index);
 				//	System.out.println(nomeEscolha.toString());
-					abrirCompromissos(nomeEscolha.toString(), idUsuario);
+					abrirCompromissos(nome, nomeEscolha.toString(), idUsuario);
 					}
 				}
 			});
@@ -311,6 +353,7 @@ public class AgendaWindow extends JFrame {
 	}
 
 	public AgendaWindow(String nomeUsuario) {
+		
 		this.nome = nomeUsuario;
 		this.agendaService = new AgendaService();
 		iniciarComponentes();
