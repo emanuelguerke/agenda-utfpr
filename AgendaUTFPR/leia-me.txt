@@ -1,0 +1,10 @@
+Importar o AgendaUTFPR.zip do projeto para o eclipse
+
+Ligar o XAMPP e iniciar o "Apache" e "MySQL"
+
+importar o "agendadb.sql" para banco de dados usando "Php My Admin"	
+
+Adicionar ao path os arquivos "jcalendar-1.4.jar" e "mysql-connector-j-8.0.32" que estão localizados na pasta "lib"
+
+Executar o arquivo LoginWindow.java no eclipse
+
