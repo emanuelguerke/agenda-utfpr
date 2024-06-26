@@ -340,7 +340,7 @@ public class AtualizarCadastroWindow extends JFrame {
 				
 				String[] opcoes = {"Sim", "Não"}; 
 				
-				int opcao = JOptionPane.showOptionDialog(btnExcluir, "Deseja excluir seu usuário?", "Comfirmação", JOptionPane.DEFAULT_OPTION,
+				int opcao = JOptionPane.showOptionDialog(btnExcluir, "Deseja excluir seu usuário?", "Confirmação", JOptionPane.DEFAULT_OPTION,
 						JOptionPane.INFORMATION_MESSAGE, null, opcoes, opcoes[0]);
 				
 				if (opcao == 0) {

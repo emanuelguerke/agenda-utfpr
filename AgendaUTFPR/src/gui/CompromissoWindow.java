@@ -1,6 +1,9 @@
 package gui;
 
 import java.awt.EventQueue;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Date;
 import java.sql.SQLException;
@@ -34,6 +37,8 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JFormattedTextField;
+import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 
 public class CompromissoWindow extends JFrame {
 
@@ -63,7 +68,10 @@ public class CompromissoWindow extends JFrame {
 	private JLabel lblDataFim;
 	private JFormattedTextField txtHoraFim;
 	private JFormattedTextField txtHoraInicio;
-
+	private JComboBox cbCompromisso;
+	private JPanel panel_3;
+	private JButton btnExportar;
+	private JButton btnImportar;
 
 	/**
 	 * Launch the application.
@@ -73,7 +81,7 @@ public class CompromissoWindow extends JFrame {
 	 */
 	public void iniciarComponentes(String nomeAgenda, String descricaoAgenda) {
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			setBounds(100, 100, 691, 832);
+			setBounds(100, 100, 686, 832);
 			contentPane = new JPanel();
 			contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 	
@@ -81,7 +89,7 @@ public class CompromissoWindow extends JFrame {
 			contentPane.setLayout(null);
 			
 			JPanel painelCompromissos = new JPanel();
-			painelCompromissos.setBounds(0, 279, 653, 393);
+			painelCompromissos.setBounds(0, 314, 653, 393);
 			contentPane.add(painelCompromissos);
 			painelCompromissos.setLayout(null);
 			
@@ -159,10 +167,16 @@ public class CompromissoWindow extends JFrame {
 			txtLocal.setColumns(10);
 			
 			JButton btnCadastrarCompromisso = new JButton("Cadastrar novo compromisso");
-			btnCadastrarCompromisso.setBounds(228, 96, 238, 23);
+			btnCadastrarCompromisso.setBounds(211, 96, 255, 23);
 			btnCadastrarCompromisso.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					cadastrarCompromisso();
+					if(validarCampos()) {
+						cadastrarCompromisso();
+						buscarCompromissos();
+					}else {
+						JOptionPane.showMessageDialog(btnCadastrarCompromisso, "Campo vazio ou invalido", "Aviso", JOptionPane.WARNING_MESSAGE);
+					}
+					
 				}
 			});
 			panel_1.add(btnCadastrarCompromisso);
@@ -198,6 +212,101 @@ public class CompromissoWindow extends JFrame {
 			txtHoraFim = new JFormattedTextField(mascaraFim);
 			txtHoraFim.setBounds(586, 45, 67, 20);
 			panel_1.add(txtHoraFim);
+			
+			JPanel panel_2 = new JPanel();
+			panel_2.setBorder(new LineBorder(new Color(0, 0, 0)));
+			panel_2.setBounds(0, 202, 660, 101);
+			contentPane.add(panel_2);
+			panel_2.setLayout(null);
+			
+			JLabel lblExcluirCompromisso = new JLabel("Excluir compromisso");
+			lblExcluirCompromisso.setBounds(21, 0, 129, 14);
+			panel_2.add(lblExcluirCompromisso);
+			
+			cbCompromisso = new JComboBox();
+			cbCompromisso.setBounds(176, 33, 311, 22);
+			panel_2.add(cbCompromisso);
+			
+			JButton btnExcluirCompromisso = new JButton("Excluir compromissos");
+			btnExcluirCompromisso.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if(cbCompromisso.getSelectedItem() != null) { //verifica se o combobox está vazio antes de deletar
+						String[] opcoes = {"Sim", "Não"}; 
+						
+						int opcao = JOptionPane.showOptionDialog(btnExcluirCompromisso, "Deseja realmente excluir o compromisso?", "Confirmação", JOptionPane.DEFAULT_OPTION,
+								JOptionPane.INFORMATION_MESSAGE, null, opcoes, opcoes[0]);
+						
+						if (opcao == 0) {
+							excluirCompromisso(cbCompromisso.getSelectedItem().toString());
+							JOptionPane.showMessageDialog(btnExcluirCompromisso, "Compromisso excluído com sucesso!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+							
+						} else if (opcao == 1) {
+							JOptionPane.showMessageDialog(btnExcluirCompromisso, "Operação cancelada!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+						}
+					}
+						
+				}
+			});
+			btnExcluirCompromisso.setBounds(258, 66, 175, 23);
+			panel_2.add(btnExcluirCompromisso);
+			
+			panel_3 = new JPanel();
+			panel_3.setBorder(new LineBorder(new Color(0, 0, 0)));
+			panel_3.setBounds(0, 718, 660, 75);
+			contentPane.add(panel_3);
+			panel_3.setLayout(null);
+			
+			btnExportar = new JButton("Exportar");
+			btnExportar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					exportarCSV();
+				}
+			});
+			btnExportar.setBounds(257, 11, 133, 23);
+			panel_3.add(btnExportar);
+			
+			btnImportar = new JButton("Importar");
+			btnImportar.setBounds(257, 41, 133, 23);
+			panel_3.add(btnImportar);
+	}
+	
+	public boolean validarCampos() {
+		
+		if ( txtTitulo.getText() != null && !txtTitulo.getText().isEmpty() && txtDescricao.getText() != null && !txtDescricao.getText().isEmpty() && txtHoraInicio.getText() != null && !txtHoraInicio.getText().isEmpty() && txtHoraFim.getText() != null && !txtHoraFim.getText().isEmpty() && dateChooserFim.getDate()!= null && dateChooserInicio.getDate() != null ) {
+			return true;
+			
+		} else {
+			return false;
+		}
+		
+	}
+	
+	public void exportarCSV() {
+		JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Selecione o local para salvar");
+        int userSelection = fileChooser.showSaveDialog(this); 
+        if(userSelection == JFileChooser.APPROVE_OPTION){
+            File fileToSave = fileChooser.getSelectedFile();
+         
+            try {
+                  FileWriter fw = new FileWriter(fileToSave);
+                BufferedWriter bw = new BufferedWriter(fw);
+                for (int i = 0; i < tblCompromissos.getRowCount(); i++) {
+                    for (int j = 0; j<  tblCompromissos.getColumnCount(); j++) {
+                        
+                        bw.write(tblCompromissos.getValueAt(i, j).toString()+",");
+                    }
+                    bw.newLine();
+                }
+                JOptionPane.showMessageDialog(this, "Salvo com sucesso","Salvo",JOptionPane.INFORMATION_MESSAGE);
+                bw.close();
+                fw.close();
+            } catch (IOException ex) {
+               JOptionPane.showMessageDialog(this, "Erro","Erro",JOptionPane.ERROR_MESSAGE);
+            }
+            
+            
+        }
 	}
 	
 	private void buscarCompromissos() {
@@ -211,9 +320,9 @@ public class CompromissoWindow extends JFrame {
 			modelo.setRowCount(0);
 			
 			List<Compromisso> compromissos = this.compromissoService.buscarCompromissos(idAgenda);
-			System.out.println("teste compromisso" +idAgenda);
+			
 			for (Compromisso compromisso : compromissos) {
-				
+				this.cbCompromisso.addItem(compromisso.getTitulo());
 				modelo.addRow(new Object[] { 
 					compromisso.getTitulo(), 
 					compromisso.getDescricao(), 
@@ -234,7 +343,7 @@ public class CompromissoWindow extends JFrame {
 	
 	public String buscarDescricaoAgenda(String nomeAgenda, int idUsuario) {
 		try {
-			System.out.println(nomeAgenda);
+			
 			return compromissoService.buscarDescricaoAgenda(nomeAgenda, idUsuario);
 			
 		}catch(SQLException | IOException e) {
@@ -247,7 +356,7 @@ public class CompromissoWindow extends JFrame {
 	
 	public int buscarIdAgenda(String nomeAgenda) {
 		try {
-			System.out.println(nomeAgenda);
+			
 			return compromissoService.buscarIdAgenda(nomeAgenda);
 			
 		}catch(SQLException | IOException e) {
@@ -295,7 +404,27 @@ public class CompromissoWindow extends JFrame {
 		this.txtHoraFim.setText("");
 		this.txtLocal.setText("");
 	}
-
+	
+	private void excluirCompromisso(String nomeCompromisso) {
+		
+		try {
+			idAgenda = buscarIdAgenda(agendaNome);
+		
+			Compromisso compromisso = new Compromisso();
+			this.compromissoService = new CompromissoService();
+			
+			this.compromissoService.excluirCompromisso(compromisso, nomeCompromisso,idAgenda);
+		//	nome = txtNomeUsuario.getText();
+			this.cbCompromisso.removeAllItems();
+			buscarCompromissos();
+			
+		} catch (SQLException | IOException e) {
+			
+			JOptionPane.showMessageDialog(null, "Não foi possível excluir o compromisso!");
+			System.out.println(e);
+		}
+		
+	}
 	private void cadastrarCompromisso() {
 		
 		try {
@@ -306,8 +435,6 @@ public class CompromissoWindow extends JFrame {
 				compromisso.setTitulo(this.txtTitulo.getText());
 				compromisso.setDescricao(this.txtDescricao.getText());
 				
-				System.out.println(dateChooserInicio.getDate());
-				
 				SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.US);
 				dataInicio = sdf.parse(this.dateChooserInicio.getDate().toString());
 				dataFim = sdf.parse(this.dateChooserFim.getDate().toString());
@@ -316,8 +443,7 @@ public class CompromissoWindow extends JFrame {
 				strDataFim = sdf2.format(dataFim);
 				dataInicio= sdf2.parse(strDataInicio);
 				dataFim= sdf2.parse(strDataFim);
-				System.out.println(strDataInicio);
-				System.out.println(strDataFim);
+				
 				
 				compromisso.setDataInicio(dataInicio);
 				compromisso.setDataFim(dataFim);
@@ -334,12 +460,13 @@ public class CompromissoWindow extends JFrame {
 			//	System.out.println(new java.sql.Date(sdf.parse(this.dateChooserInicio.getDate()).getTime()));
 				this.compromissoService.cadastrar(compromisso, idAgenda);
 				this.limparComponentes();
-				buscarCompromissos();
+				this.cbCompromisso.removeAllItems();
+				
 			
 			}
 			catch ( NumberFormatException | NullPointerException | ParseException | SQLException | IOException e) {
 				
-				JOptionPane.showMessageDialog(null, "Não foi possivel cadastrar uma nova agenda.", "ERRO", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Não foi possivel cadastrar uma novo compromisso.", "ERRO", JOptionPane.ERROR_MESSAGE);
 				System.out.println(e);
 			}
 		
@@ -358,7 +485,6 @@ public class CompromissoWindow extends JFrame {
 			this.compromissoService = new CompromissoService();
 			this.agendaNome = nomeAgenda;
 			this.idAgenda = buscarIdAgenda(nomeAgenda);
-			System.out.println(idAgenda);
 			iniciarComponentes(nomeAgenda,buscarDescricaoAgenda(nomeAgenda,idUsuario));
 			buscarCompromissos();
 			

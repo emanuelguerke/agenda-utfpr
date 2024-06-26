@@ -26,7 +26,7 @@ public class AgendaDAO {
 		//	if(rs.getString("nome_usuario") == usuario && rs.getString("senha") == senha ) {
 			
 				id_usuario = rs.getInt("id");
-				System.out.println(id_usuario);
+				
 				return id_usuario;
 
 		}
@@ -61,7 +61,7 @@ public class AgendaDAO {
 		try {
 
 		//	st = conn.prepareStatement("select * from agenda order by nome");
-			System.out.println(id_usuario);
+		
 			st = conn.prepareStatement("select * from agenda where ? = id_usuario");
 			st.setInt(1, idUsuario);
 			rs = st.executeQuery();

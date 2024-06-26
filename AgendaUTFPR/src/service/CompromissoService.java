@@ -14,7 +14,7 @@ import entities.Compromisso;
 public class CompromissoService {
 	
 	public String buscarDescricaoAgenda(String nomeAgenda, int idUsuario) throws SQLException, IOException {
-		System.out.println(nomeAgenda);
+		
 		Connection conn = BancoDados.conectar();
 		return new CompromissoDAO(conn).buscarDescricaoAgenda(nomeAgenda, idUsuario);
 		
@@ -27,7 +27,7 @@ public class CompromissoService {
 	}
 	
 	public int buscarIdAgenda(String nomeAgenda) throws SQLException, IOException {
-		System.out.println(nomeAgenda);
+		
 		Connection conn = BancoDados.conectar();
 		return new CompromissoDAO(conn).buscarIdAgenda(nomeAgenda);
 		
@@ -38,6 +38,10 @@ public class CompromissoService {
 		Connection conn = BancoDados.conectar();
 		new CompromissoDAO(conn).cadastrarCompromisso(compromisso, idAgenda);
 	}
-	
+	public void excluirCompromisso(Compromisso compromisso, String nomeCompromisso, int idAgenda) throws SQLException, IOException {
+		
+		Connection conn = BancoDados.conectar();
+		new CompromissoDAO(conn).excluirCompromisso(compromisso, nomeCompromisso, idAgenda);
+	}
 	
 }

@@ -47,7 +47,7 @@ public class CompromissoDAO {
 			rs.next();
 			
 				id_agenda = rs.getInt("id");
-				System.out.println("metodo buscar id agendas "+id_agenda);
+	//			System.out.println("metodo buscar id agendas "+id_agenda);
 				return id_agenda;
 
 		}
@@ -64,7 +64,7 @@ public class CompromissoDAO {
 		try {
 
 		//	st = conn.prepareStatement("select * from agenda order by nome");
-			System.out.println("metodo buscar compromisso: "+idAgenda);
+	//		System.out.println("metodo buscar compromisso: "+idAgenda);
 			st = conn.prepareStatement("select * from compromisso where ? = id_agenda");
 			st.setInt(1, idAgenda);
 			rs = st.executeQuery();
@@ -98,6 +98,26 @@ public class CompromissoDAO {
 	private static java.sql.Date converterData(java.util.Date date){
 		java.sql.Date sqlDate = new java.sql.Date(date.getTime());
 		return sqlDate;
+	}
+	
+	public void excluirCompromisso(Compromisso compromisso, String nomeCompromisso, int idAgenda) throws SQLException {
+		
+		PreparedStatement st = null;
+		
+		try {
+			
+			st = conn.prepareStatement("DELETE FROM compromisso WHERE titulo = ? AND id_agenda = ?");
+			
+			st.setString(1, nomeCompromisso);
+			st.setInt(2, idAgenda);
+			
+			st.executeUpdate();
+		
+		} finally {
+			
+			BancoDados.finalizarStatement(st);
+			BancoDados.desconectar();
+		}
 	}
 	
 	public void cadastrarCompromisso(Compromisso compromisso, int idAgenda) throws SQLException {

@@ -113,6 +113,16 @@ public class AgendaWindow extends JFrame {
 			
 			
 	}
+	public boolean validarCampos() {
+		
+		if ( txtNome.getText() != null && !txtNome.getText().isEmpty() && txtDescricao.getText() != null && !txtDescricao.getText().isEmpty() ) {
+			return true;
+			
+		} else {
+			return false;
+		}
+		
+	}
 	
 	private void buscarAgendas() {
 		
@@ -124,8 +134,6 @@ public class AgendaWindow extends JFrame {
 			for (Agenda agenda : agendas) {
 					this.cbAgenda.addItem(agenda.getNome());
 					DLM.addElement(agenda.getNome());
-					
-					System.out.println(agenda.getNome());
 			}		
 			lstAgenda.setModel(DLM);
 		} catch (SQLException | IOException e) {
@@ -137,7 +145,6 @@ public class AgendaWindow extends JFrame {
 	}
 	public int buscarId(String nome) {
 		try {
-			System.out.println(nome);
 			return agendaService.buscarId(nome);
 			
 		}catch(SQLException | IOException e) {
@@ -149,7 +156,6 @@ public class AgendaWindow extends JFrame {
 	}
 	public int buscarIdAgenda(String nome) {
 		try {
-			System.out.println(nome);
 			return agendaService.buscarId(nome);
 			
 		}catch(SQLException | IOException e) {
@@ -174,7 +180,7 @@ public class AgendaWindow extends JFrame {
 			
 		} catch (SQLException | IOException e) {
 			
-			JOptionPane.showMessageDialog(null, "Não foi possível excluir o usuario!");
+			JOptionPane.showMessageDialog(null, "Não foi possível excluir a agenda!");
 		}
 		
 	}
@@ -209,8 +215,8 @@ public class AgendaWindow extends JFrame {
 					if(e.getValueIsAdjusting()){
 					int index = lstAgenda.getSelectedIndex();
 					Object nomeEscolha = lstAgenda.getSelectedValue();
-					System.out.println(index);
-					System.out.println(nomeEscolha.toString());
+				//	System.out.println(index);
+				//	System.out.println(nomeEscolha.toString());
 					abrirCompromissos(nomeEscolha.toString(), idUsuario);
 					}
 				}
@@ -251,8 +257,13 @@ public class AgendaWindow extends JFrame {
 			JButton btnCadastrar = new JButton("Cadastrar");
 			btnCadastrar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					cadastrarAgenda();
-					buscarAgendas();
+					if(validarCampos()) {
+						cadastrarAgenda();
+						buscarAgendas();
+					}else {
+						JOptionPane.showMessageDialog(btnCadastrar, "Campo vazio ou invalido", "Aviso", JOptionPane.WARNING_MESSAGE);
+					}
+					
 				}
 			});
 			btnCadastrar.setBounds(183, 73, 114, 23);
@@ -275,8 +286,24 @@ public class AgendaWindow extends JFrame {
 			JButton btnExcluirAgenda = new JButton("Excluir Agenda");
 			btnExcluirAgenda.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					if(cbAgenda.getSelectedItem() != null) //verifica se o combobox está vazio antes de deletar
-					excluirAgenda(cbAgenda.getSelectedItem().toString());
+					if(cbAgenda.getSelectedItem() != null) {//verifica se o combobox está vazio antes de deletar
+						
+						String[] opcoes = {"Sim", "Não"}; 
+						
+						int opcao = JOptionPane.showOptionDialog(btnExcluirAgenda, "Deseja excluir a Agenda?", "Confirmação", JOptionPane.DEFAULT_OPTION,
+								JOptionPane.INFORMATION_MESSAGE, null, opcoes, opcoes[0]);
+						
+						if (opcao == 0) {
+							excluirAgenda(cbAgenda.getSelectedItem().toString());
+							JOptionPane.showMessageDialog(btnExcluirAgenda, "Agenda excluída com sucesso!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+							
+						} else if (opcao == 1) {
+							JOptionPane.showMessageDialog(btnExcluirAgenda, "Operação cancelada!", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+						}
+						
+						
+					}
+					
 				}
 			});
 			btnExcluirAgenda.setBounds(180, 69, 129, 23);
