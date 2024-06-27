@@ -1,3 +1,6 @@
+Equipe 2: João Gabriel Loureiro / Larissa Cavalcante Leal / Emanuel Mainardes Guerke
+
+
 Importar o AgendaUTFPR.zip do projeto para o eclipse
 
 Ligar o XAMPP e iniciar o "Apache" e "MySQL"
