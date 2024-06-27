@@ -90,7 +90,7 @@ public class CompromissoWindow extends JFrame {
 	public void iniciarComponentes(String nomeAgenda, String descricaoAgenda) {
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			setBounds(100, 100, 694, 881);
-			
+			setLocationRelativeTo(null);
 			menuBar = new JMenuBar();
 			setJMenuBar(menuBar);
 			
